@@ -281,7 +281,58 @@ public class Solicitud {
                     .build();
         }
 
+
+
+    }
+    public void cambiarPrioridad(Prioridad nuevaPrioridad, Usuario usuario) {
+
+        // Verifica que la solicitud no esté cerrada
+        validarNoCerrada();
+
+        // Valida que la prioridad haya sido enviada
+        if (nuevaPrioridad == null) {
+            throw new ReglaDominioException("La nueva prioridad es obligatoria");
+        }
+
+        // Valida que exista el usuario que realiza la acción
+        if (usuario == null) {
+            throw new ReglaDominioException("El usuario es obligatorio");
+        }
+
+        // Actualiza la prioridad
+        this.prioridad = nuevaPrioridad;
+
+        // Registra el cambio en el historial
+        registrarHistorial(
+                String.format("Prioridad cambiada a %s", nuevaPrioridad),
+                usuario
+        );
     }
 
 
+
+    public static Solicitud crear(
+            String descripcion,
+            TipoSolicitud tipo,
+            Usuario solicitante
+    ) {
+        if (descripcion == null || descripcion.isBlank()) {
+            throw new ReglaDominioException("La descripción es obligatoria");
+        }
+
+        if (tipo == null) {
+            throw new ReglaDominioException("El tipo de solicitud es obligatorio");
+        }
+
+        if (solicitante == null) {
+            throw new ReglaDominioException("El solicitante es obligatorio");
+        }
+
+        Builder builder = new Builder();
+        builder.descripcion(descripcion);
+        builder.tipo(tipo);
+        builder.solicitante(solicitante);
+
+        return builder.build();
+    }
 }
