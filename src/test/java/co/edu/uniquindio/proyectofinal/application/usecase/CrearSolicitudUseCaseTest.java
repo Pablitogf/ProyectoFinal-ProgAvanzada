@@ -1,66 +1,72 @@
 package co.edu.uniquindio.proyectofinal.application.usecase;
 
-import co.edu.uniquindio.proyectofinal.application.dto.request.CrearSolicitudRequest;
-import co.edu.uniquindio.proyectofinal.application.usecase.CrearSolicitudUseCase;
+import co.edu.uniquindio.proyectofinal.application.dto.UsuarioDto;
+import co.edu.uniquindio.proyectofinal.application.dto.request.CrearSolicitudDto;
 import co.edu.uniquindio.proyectofinal.domain.model.entity.Solicitud;
 import co.edu.uniquindio.proyectofinal.domain.model.entity.Usuario;
 import co.edu.uniquindio.proyectofinal.domain.model.repository.SolicitudRepositorio;
+import co.edu.uniquindio.proyectofinal.domain.model.repository.UsuarioRepositorio;
 import co.edu.uniquindio.proyectofinal.domain.model.valueobject.Email;
+import co.edu.uniquindio.proyectofinal.domain.model.valueobject.TipoSolicitud;
 import co.edu.uniquindio.proyectofinal.domain.model.valueobject.TipoUser;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import java.util.Optional;
 
-@ExtendWith(MockitoExtension.class) // Habilita Mockito para JUnit 5
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 class CrearSolicitudUseCaseTest {
 
     @Mock
-    private SolicitudRepositorio repositorio; // Crea un simulacro del repositorio
+    private SolicitudRepositorio solicitudRepositorio;
+
+    @Mock
+    private UsuarioRepositorio usuarioRepositorio;
 
     @InjectMocks
-    private CrearSolicitudUseCase crearSolicitudUseCase; // Inyecta el mock automáticamente
+    private CrearSolicitudUseCase crearSolicitudUseCase;
 
     @Test
     void debeCrearYGuardarUnaSolicitudExitosamente() {
-        // GIVEN
         String descripcion = "Mi internet no funciona y necesito soporte urgente";
-
-        // CORRECCIÓN: Crea el usuario con un Email y TipoUser válidos
         Usuario solicitante = new Usuario(
                 "usuario-123",
                 new Email("pablo@uniquindio.edu.co"),
                 TipoUser.ESTUDIANTE
         );
+        CrearSolicitudDto dto = new CrearSolicitudDto(descripcion, TipoSolicitud.HOMOLOGACION);
+        UsuarioDto usuarioDto = new UsuarioDto("usuario-123");
 
-        // Mock del repositorio
-        when(repositorio.guardar(any(Solicitud.class))).thenAnswer(i -> i.getArguments()[0]);
+        when(usuarioRepositorio.buscarPorId("usuario-123")).thenReturn(Optional.of(solicitante));
+        when(solicitudRepositorio.guardar(any(Solicitud.class))).thenAnswer(i -> i.getArguments()[0]);
 
-        // WHEN
-        Solicitud resultado = crearSolicitudUseCase.ejecutar(descripcion, solicitante);
+        Solicitud resultado = crearSolicitudUseCase.ejecutar(dto, usuarioDto);
 
-        // THEN
         assertNotNull(resultado);
-        verify(repositorio, times(1)).guardar(any(Solicitud.class));
+        verify(solicitudRepositorio, times(1)).guardar(any(Solicitud.class));
     }
 
     @Test
-    void debeFallarCuandoLaDescripcionEsNula() {
-        // GIVEN
-        // También ajustamos este constructor
-        CrearSolicitudRequest request = new CrearSolicitudRequest(
-                1L,
-                null, // Para que falle por descripción nula
-                "WEB",
-                "usuario-123"
+    void debeFallarCuandoUsuarioNoExiste() {
+        CrearSolicitudDto dto = new CrearSolicitudDto(
+                "Descripcion lo suficientemente larga para pruebas.",
+                TipoSolicitud.HOMOLOGACION
         );
+        when(usuarioRepositorio.buscarPorId("desconocido")).thenReturn(Optional.empty());
 
-        // ... resto del código
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> crearSolicitudUseCase.ejecutar(dto, new UsuarioDto("desconocido"))
+        );
     }
 }

@@ -1,13 +1,69 @@
-<div class="formulario">
+<p-toast />
 
-  <h2>Registro</h2>
+<div class="register-container animate-fade-in">
+  <p-card class="registro-card">
 
-  <input type="text" placeholder="Nombre">
+    <div class="register-header">
+      <i class="pi pi-user-plus register-icon"></i>
+      <h2>Nuevo Operador</h2>
+      <p class="subtitle">SISTEMA INTEGRAL UQ</p>
+    </div>
 
-  <input type="email" placeholder="Correo">
+    <form [formGroup]="form" (ngSubmit)="registrar()">
+      <p-fluid>
+        <div class="flex flex-col gap-4">
 
-  <input type="password" placeholder="Contraseña">
+          <p-iftalabel>
+            <input pInputText id="nombre" type="text" formControlName="nombre" />
+            <label for="nombre">Nombre Completo</label>
+          </p-iftalabel>
+          @if (form.get('nombre')?.invalid && form.get('nombre')?.touched) {
+            <small class="p-error">El nombre es obligatorio para el registro.</small>
+          }
 
-  <button>Registrarse</button>
+          <p-iftalabel>
+            <input pInputText id="correo" type="email" formControlName="correo" autocomplete="email" />
+            <label for="correo">Identificador (Email)</label>
+          </p-iftalabel>
+          @if (form.get('correo')?.invalid && form.get('correo')?.touched) {
+            <small class="p-error">Ingresa un correo electrónico institucional válido.</small>
+          }
 
+          <p-iftalabel>
+            <p-password
+              id="password"
+              formControlName="password"
+              [toggleMask]="true"
+              [feedback]="true"
+              promptLabel="Escribe una clave segura"
+              weakLabel="Débil"
+              mediumLabel="Media"
+              strongLabel="Fuerte y Robusta" />
+            <label for="password">Contraseña de Acceso</label>
+          </p-iftalabel>
+          @if (form.get('password')?.invalid && form.get('password')?.touched) {
+            <small class="p-error">La clave de seguridad debe contener mínimo 6 caracteres.</small>
+          }
+
+          <div class="mt-2">
+            <p-button
+              type="submit"
+              label="ACTIVAR CUENTA"
+              icon="pi pi-verified"
+              [disabled]="form.invalid"
+              class="btn-activar" />
+          </div>
+
+          <div class="text-center mt-3">
+            <p class="text-secondary small mb-1">¿Ya tienes una cuenta registrada?</p>
+            <a routerLink="/login" class="link-login">
+              Entrar aquí
+            </a>
+          </div>
+
+        </div>
+      </p-fluid>
+    </form>
+
+  </p-card>
 </div>

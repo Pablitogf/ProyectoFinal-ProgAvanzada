@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@angular/cdk": "^21.2.11",
+    "primeng": "^21.1.7"
+  }
+}

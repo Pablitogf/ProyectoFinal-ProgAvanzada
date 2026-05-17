@@ -1,36 +1,86 @@
-.formulario{
-    background-color: white;
-    width: 400px;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* Contenedor para centrar tu formulario perfectamente en la pantalla */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background-color: #f4f6f9; /* Un fondo gris claro para que resalte tu formulario blanco */
 }
 
-.formulario h2{
-    text-align: center;
-    color: #1e3c72;
-    margin-bottom: 10px;
+/* Tu clase original adaptada para envolver el componente p-card */
+.formulario {
+  background-color: white;
+  width: 400px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  display: block;
 }
 
-.formulario input{
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+/* Modificamos el espaciado interno nativo de la tarjeta de PrimeNG con tu padding */
+:host ::ng-deep .p-card-body {
+  padding: 40px !important;
 }
 
-.formulario button{
-    background-color: #2a5298;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
+/* Tu estilo original para el título H2 */
+.formulario h2 {
+  text-align: center;
+  color: #1e3c72;
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: 600;
 }
 
-.formulario button:hover{
-    background-color: #1e3c72;
+.text-subtitle {
+  text-align: center;
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin-bottom: 25px;
+}
+
+/* Estilo para tus botones utilizando tus colores de fondo y hover */
+:host ::ng-deep .btn-ingresar .p-button {
+  background-color: #2a5298 !important;
+  border: none !important;
+  padding: 12px !important;
+  border-radius: 8px !important;
+  transition: background-color 0.3s ease;
+}
+
+:host ::ng-deep .btn-ingresar .p-button:hover {
+  background-color: #1e3c72 !important;
+}
+
+/* Estilo para cuando el botón está deshabilitado */
+:host ::ng-deep .btn-ingresar .p-button:disabled {
+  background-color: #cccccc !important;
+  color: #666666 !important;
+  opacity: 0.7;
+}
+
+/* Enlace de registro con tu paleta de color */
+.link-registro {
+  color: #2a5298;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.link-registro:hover {
+  color: #1e3c72;
+  text-decoration: underline;
+}
+
+/* Estilos de alerta para las validaciones en rojo */
+.p-error {
+  color: #ef4444;
+  font-size: 0.8rem;
+  display: block;
+  margin-top: -5px;
+  margin-bottom: 5px;
+  padding-left: 4px;
+}
+
+/* Requerido por PrimeNG v21 para el correcto flujo del diseño de componentes */
+:host {
+  display: block;
 }

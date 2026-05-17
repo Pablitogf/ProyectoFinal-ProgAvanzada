@@ -1,36 +1,105 @@
-.formulario{
-    background-color: white;
-    width: 400px;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* Centrado absoluto de la tarjeta con fondo suavizado */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  background-color: #f4f6f9;
 }
 
-.formulario h2{
-    text-align: center;
-    color: #1e3c72;
-    margin-bottom: 10px;
+/* Formato exacto de ancho de tu login original */
+.registro-card {
+  display: block;
+  width: 420px;
 }
 
-.formulario input{
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+:host ::ng-deep .registro-card .p-card-body {
+  padding: 40px !important;
+  border-radius: 15px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
 }
 
-.formulario button{
-    background-color: #2a5298;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    cursor: pointer;
+/* Diseño del Header superior */
+.register-header {
+  text-align: center;
+  margin-bottom: 25px;
 }
 
-.formulario button:hover{
-    background-color: #1e3c72;
+.register-icon {
+  font-size: 2.5rem;
+  color: #2a5298;
+  margin-bottom: 8px;
+}
+
+.register-header h2 {
+  color: #1e3c72;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+/* Personalización cromática profunda del Botón de PrimeNG */
+:host ::ng-deep .btn-activar .p-button {
+  background-color: #2a5298 !important;
+  border: none !important;
+  padding: 14px !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: background-color 0.3s ease;
+}
+
+:host ::ng-deep .btn-activar .p-button:hover {
+  background-color: #1e3c72 !important;
+}
+
+:host ::ng-deep .btn-activar .p-button:disabled {
+  background-color: #cbd5e1 !important;
+  color: #94a3b8 !important;
+  opacity: 0.8;
+}
+
+/* Enlace inferior */
+.link-login {
+  color: #2a5298;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.link-login:hover {
+  color: #1e3c72;
+  text-decoration: underline;
+}
+
+/* Mensajes de validación en tiempo real */
+.p-error {
+  color: #ef4444;
+  font-size: 0.8rem;
+  display: block;
+  margin-top: -6px;
+  margin-bottom: 2px;
+  padding-left: 4px;
+}
+
+/* Animación sutil de entrada de pantalla */
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+:host {
+  display: block;
 }

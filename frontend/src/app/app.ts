@@ -1,15 +1,13 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+import { Footer } from './componentes/footer/footer';
+import { Header } from './componentes/header/header';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, Header, Footer],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
-export class App {
-
-  title = signal('Red Social de Aprendizaje');
-  footer = signal('Universidad del Quindío');
-
-}
+export class App {}

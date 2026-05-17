@@ -1,0 +1,123 @@
+/* Corrección de la Guía 17: Evita fallos de renderizado en p-card */
+:host {
+  display: block;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding-bottom: 3rem;
+}
+
+#titulo-listado {
+  color: #1e3c72;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title-icon {
+  font-size: 1.75rem;
+  color: #2a5298;
+}
+
+/* Encapsulación profunda para inyectar tus colores sobre el sombreado Aura de PrimeNG */
+.solicitud-card {
+  display: block;
+  height: 100%;
+}
+
+:host ::ng-deep .solicitud-card .p-card {
+  border-radius: 12px !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+:host ::ng-deep .solicitud-card .p-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px -3px rgba(30, 60, 114, 0.15) !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Estilo de la Guía 16: Borde izquierdo para Prioridades Críticas */
+.solicitud-card.prioridad-alta :host ::ng-deep .p-card {
+  border-left: 5px solid #ef4444 !important;
+}
+
+.card-custom-header {
+  padding: 1.25rem 1.25rem 0.75rem 1.25rem;
+  border-bottom: 1px dashed #f1f5f9;
+}
+
+.solicitud-code {
+  font-family: monospace;
+  font-weight: 700;
+  color: #334155;
+}
+
+:host ::ng-deep .p-card-content {
+  padding: 1.25rem !important;
+  flex-grow: 1;
+}
+
+.solicitud-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #f1f5f9;
+  color: #475569;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.solicitud-description {
+  color: #334155;
+  font-size: 0.925rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.solicitud-date {
+  font-size: 0.825rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+:host ::ng-deep .p-card-footer {
+  padding: 0.75rem 1.25rem 1.25rem 1.25rem !important;
+  border-top: 1px dashed #f1f5f9;
+  margin-top: auto;
+}
+
+.owner-name {
+  color: #64748b;
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.empty-state {
+  background: white;
+  border-radius: 16px;
+  border: 2px dashed #cbd5e1;
+}
+
+.empty-icon {
+  font-size: 3.5rem;
+  color: #94a3b8;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

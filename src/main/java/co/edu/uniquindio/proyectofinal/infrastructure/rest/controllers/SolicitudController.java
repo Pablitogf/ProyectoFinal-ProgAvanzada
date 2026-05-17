@@ -8,6 +8,8 @@
     import co.edu.uniquindio.proyectofinal.application.dto.request.CambiarPrioridadRequest;
     import co.edu.uniquindio.proyectofinal.application.dto.request.CerrarSolicitudRequest;
     import co.edu.uniquindio.proyectofinal.application.dto.request.ClasificarSolicitudRequest;
+    import co.edu.uniquindio.proyectofinal.application.dto.UsuarioDto;
+    import co.edu.uniquindio.proyectofinal.application.dto.request.CrearSolicitudDto;
     import co.edu.uniquindio.proyectofinal.application.dto.request.CrearSolicitudRequest;
     import co.edu.uniquindio.proyectofinal.application.dto.response.SolicitudDetalleResponse;
     import co.edu.uniquindio.proyectofinal.application.usecase.AsignarResponsableUseCase;
@@ -56,8 +58,10 @@
 
         @PostMapping("/{id}/crear")
         public ResponseEntity<SolicitudDetalleResponse> crear(@Valid @RequestBody CrearSolicitudRequest request) {
-            Usuario solicitante = new Usuario(request.usuarioId().toString(), null, null);
-            Solicitud solicitud = crearSolicitudUseCase.ejecutar(request.descripcion(), solicitante);
+            TipoSolicitud tipo = tipoDesdeCatalogo(request.tipoSolicitudId());
+            CrearSolicitudDto dto = new CrearSolicitudDto(request.descripcion(), tipo);
+            UsuarioDto usuarioDto = new UsuarioDto(request.usuarioId());
+            Solicitud solicitud = crearSolicitudUseCase.ejecutar(dto, usuarioDto);
 
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/{id}")
@@ -76,11 +80,11 @@
                 @PathVariable String id,
                 @Valid @RequestBody ClasificarSolicitudRequest request) {
 
-            TipoSolicitud tipo = TipoSolicitud.valueOf(request.tipoSolicitudId().toString());
+            TipoSolicitud tipo = tipoDesdeCatalogo(request.tipoSolicitudId());
             Prioridad prioridad = Prioridad.valueOf(request.prioridad().toUpperCase());
-            Usuario coordinador = new Usuario(request.coordinadorId(), null, null);
+            UsuarioDto coordinador = new UsuarioDto(request.coordinadorId());
 
-            Solicitud solicitud = clasificarSolicitudUseCase.ejecutar(id, tipo, prioridad, coordinador);
+            Solicitud solicitud = clasificarSolicitudUseCase.ejecutar(id, prioridad, tipo, coordinador);
             return ResponseEntity.ok(mapper.toDetalleResponse(solicitud));
         }
 
@@ -102,7 +106,7 @@
                 @Valid @RequestBody CambiarPrioridadRequest request) {
 
             Prioridad prioridad = Prioridad.valueOf(request.nivelPrioridad().toUpperCase());
-            Usuario coordinador = new Usuario(request.coordinadorId(), null, null);
+            UsuarioDto coordinador = new UsuarioDto(request.coordinadorId());
 
             Solicitud solicitud = cambiarPrioridadUseCase.ejecutar(id, prioridad, coordinador);
             return ResponseEntity.ok(mapper.toDetalleResponse(solicitud));
@@ -163,6 +167,22 @@
         @GetMapping("/consultas/reporte-estados")
         public ResponseEntity<Map<String, Long>> reporteEstadosNativo() {
             return ResponseEntity.ok(consultasAvanzadasSolicitudUseCase.reporteNativoCantidadPorEstado());
+        }
+
+        /**
+         * Convierte el id de catálogo (1..n) al enum {@link TipoSolicitud} en el orden declarado.
+         */
+        private static TipoSolicitud tipoDesdeCatalogo(Long tipoSolicitudId) {
+            if (tipoSolicitudId == null) {
+                throw new IllegalArgumentException("tipoSolicitudId es obligatorio.");
+            }
+            int indice = tipoSolicitudId.intValue() - 1;
+            TipoSolicitud[] valores = TipoSolicitud.values();
+            if (indice < 0 || indice >= valores.length) {
+                throw new IllegalArgumentException(
+                        "El tipoSolicitudId " + tipoSolicitudId + " no existe en el catalogo.");
+            }
+            return valores[indice];
         }
     }
 

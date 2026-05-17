@@ -1,0 +1,51 @@
+<nav class="navbar navbar-expand-md bg-body-tertiary shadow-sm">
+  <div class="container">
+    <a routerLink="/" class="navbar-brand d-flex align-items-center gap-2">
+      <i class="fa-solid fa-file-lines" aria-hidden="true"></i>
+      <span>Solicitudes UQ</span>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navMenu"
+      aria-controls="navMenu"
+      aria-expanded="false"
+      aria-label="Alternar menú"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a routerLink="/" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa-solid fa-house me-1" aria-hidden="true"></i>Inicio
+          </a>
+        </li>
+        @if (isLoggedIn()) {
+          <li class="nav-item">
+            <a routerLink="/lista-solicitudes" routerLinkActive="active" class="nav-link">
+              <i class="fa-solid fa-list-check me-1" aria-hidden="true"></i>Mis solicitudes
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/nueva-solicitud" routerLinkActive="active" class="nav-link">
+              <i class="fa-solid fa-plus me-1" aria-hidden="true"></i>Nueva solicitud
+            </a>
+          </li>
+        }
+      </ul>
+      <div class="d-flex gap-2">
+        @if (isLoggedIn()) {
+          <button type="button" class="btn btn-outline-danger btn-sm" (click)="cerrarSesion()">
+            <i class="fa-solid fa-right-from-bracket me-1" aria-hidden="true"></i>Cerrar sesión
+          </button>
+        } @else {
+          <a routerLink="/login" class="btn btn-outline-primary btn-sm">
+            <i class="fa-solid fa-right-to-bracket me-1" aria-hidden="true"></i>Ingresar
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+</nav>
