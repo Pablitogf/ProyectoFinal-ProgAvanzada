@@ -23,8 +23,9 @@ interface SolicitudApiDetalle {
 })
 export class SolicitudesService {
   private readonly http = inject(HttpClient);
-  // Asegúrate de que esta URL coincida con tu backend
-  private readonly apiUrl = '/api/solicitudes';
+
+  // 🟢 CORREGIDO: Apunta explícitamente al puerto 8080 de tu Spring Boot
+  private readonly apiUrl = 'http://localhost:8080/api/solicitudes';
 
   /** Lista solicitudes no cerradas */
   listar(): Observable<SolicitudResumen[]> {
@@ -35,15 +36,13 @@ export class SolicitudesService {
       .pipe(map((page) => (page.content ?? []).map(adaptarResumen)));
   }
 
-  /** * MÉTODO QUE TE FALTABA:
-   * Envía la nueva solicitud al backend
-   */
+  /** Enbía la nueva solicitud al backend */
   crear(solicitud: any): Observable<any> {
     return this.http.post(this.apiUrl, solicitud);
   }
 }
 
-// --- Funciones auxiliares (se mantienen igual) ---
+// --- Funciones auxiliares (se mantienen exactamente igual) ---
 
 function adaptarResumen(s: SolicitudApiDetalle): SolicitudResumen {
   const fecha = normalizarFecha(s.fechaCreacion);

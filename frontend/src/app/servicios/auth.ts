@@ -9,11 +9,22 @@ import { LoginRequest, TokenResponse } from '../modelos/login-api';
 export class AuthService {
   private readonly http = inject(HttpClient);
 
+
+  private readonly API_URL = 'http://localhost:8080/api/auth';
+
   /** Fuente única de verdad para sesión (Guía 16). */
   readonly isAuthenticated = signal(this.readTokenFromStorage());
 
+
   login(request: LoginRequest): Observable<TokenResponse> {
-    return this.http.post<TokenResponse>('/api/auth/login', request);
+    return this.http.post<TokenResponse>(`${this.API_URL}/login`, request);
+  }
+
+
+  registrar(request: any): Observable<string> {
+    return this.http.post('http://localhost:8080/api/auth/registrar', request, {
+      responseType: 'text'
+    });
   }
 
   persistSession(response: TokenResponse): void {

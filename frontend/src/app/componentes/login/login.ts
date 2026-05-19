@@ -1,9 +1,9 @@
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop'; // Requerido para signals
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
-// Componentes directos de PrimeNG v21 (¡Sin módulos obsoletos!)
+// Componentes directos de PrimeNG v21
 import { InputText } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
@@ -63,8 +63,15 @@ export class LoginComponent {
     this.result.set('');
     const { username, password } = this.loginForm.getRawValue();
 
-    this.authService.login({ username, password })
-      .pipe(takeUntilDestroyed(this.destroyRef)) // Previene memory leaks al destruir el componente
+
+    const payload = {
+      username: username,
+      password: password
+    };
+
+    // Pasamos el payload formateado como 'any' para encajar perfectamente con el servicio
+    this.authService.login(payload as any)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: any) => {
           this.isLoading.set(false);
@@ -74,17 +81,19 @@ export class LoginComponent {
             this.authService.isAuthenticated.set(true);
           }
 
-          // Si tu servicio aún usa persistSession, lo dejamos aquí de respaldo:
+          // Persistimos el Token y los Roles en el LocalStorage
           if (typeof this.authService.persistSession === 'function') {
             this.authService.persistSession(response);
           }
 
-          // Redirección al listado de solicitudes como exige la guía
+          // Redirección directa al listado de solicitudes autorizado
           void this.router.navigate(['/lista-solicitudes']);
         },
-        error: (err: Error) => {
+        error: (err: any) => {
           this.isLoading.set(false);
-          this.result.set(err.message || 'Credenciales incorrectas o error de red.');
+          // Muestra un mensaje amigable en la caja roja de error de PrimeNG
+          this.result.set('Credenciales incorrectas. Verifica tu correo institucional y contraseña.');
+          console.error('Error detallado devuelto por Java:', err);
         },
       });
   }

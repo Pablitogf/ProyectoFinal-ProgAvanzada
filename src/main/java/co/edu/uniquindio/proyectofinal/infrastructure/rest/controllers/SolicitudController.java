@@ -28,14 +28,7 @@
     import lombok.RequiredArgsConstructor;
     import org.springframework.data.domain.Page;
     import org.springframework.http.ResponseEntity;
-    import org.springframework.web.bind.annotation.GetMapping;
-    import org.springframework.web.bind.annotation.PathVariable;
-    import org.springframework.web.bind.annotation.PostMapping;
-    import org.springframework.web.bind.annotation.PutMapping;
-    import org.springframework.web.bind.annotation.RequestBody;
-    import org.springframework.web.bind.annotation.RequestMapping;
-    import org.springframework.web.bind.annotation.RequestParam;
-    import org.springframework.web.bind.annotation.RestController;
+    import org.springframework.web.bind.annotation.*;
     import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
     import java.net.URI;
@@ -45,6 +38,7 @@
     @RestController
     @RequestMapping("/api/solicitudes")
     @RequiredArgsConstructor
+    @CrossOrigin(origins = "http://localhost:4200")
     public class SolicitudController {
 
         private final CrearSolicitudUseCase crearSolicitudUseCase;
@@ -56,19 +50,23 @@
         private final ConsultasAvanzadasSolicitudUseCase consultasAvanzadasSolicitudUseCase;
         private final SolicitudMapper mapper;
 
-        @PostMapping("/{id}/crear")
+        @PostMapping // 👈 2. CAMBIA ESTO (Quita el "/{id}/crear")
         public ResponseEntity<SolicitudDetalleResponse> crear(@Valid @RequestBody CrearSolicitudRequest request) {
             TipoSolicitud tipo = tipoDesdeCatalogo(request.tipoSolicitudId());
             CrearSolicitudDto dto = new CrearSolicitudDto(request.descripcion(), tipo);
             UsuarioDto usuarioDto = new UsuarioDto(request.usuarioId());
             Solicitud solicitud = crearSolicitudUseCase.ejecutar(dto, usuarioDto);
 
+            // Al usar @PostMapping en la raíz, esto generará perfectamente la URL del recurso: /api/solicitudes/{id}
             URI location = ServletUriComponentsBuilder
                     .fromCurrentRequest().path("/{id}")
                     .buildAndExpand(solicitud.getId()).toUri();
 
             return ResponseEntity.created(location).body(mapper.toDetalleResponse(solicitud));
         }
+
+        // ... El resto de tus métodos (@GetMapping, @PutMapping, etc.) se quedan exactamente igual ...
+
 
         @GetMapping("/{id}")
         public ResponseEntity<SolicitudDetalleResponse> obtener(@PathVariable String id) {

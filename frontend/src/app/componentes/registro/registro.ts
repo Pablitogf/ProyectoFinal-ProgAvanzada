@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
-// Componentes directos de PrimeNG v21 (¡Cero módulos obsoletos!)
+// Componentes directos de PrimeNG v21
 import { Card } from 'primeng/card';
 import { InputText } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
@@ -11,8 +12,6 @@ import { Toast } from 'primeng/toast';
 import { IftaLabel } from 'primeng/iftalabel';
 import { Fluid } from 'primeng/fluid';
 import { MessageService } from 'primeng/api';
-
-import { UsuariosService } from '../../servicios/usuarios';
 
 @Component({
   selector: 'app-registro',
@@ -28,15 +27,15 @@ import { UsuariosService } from '../../servicios/usuarios';
     IftaLabel,
     Fluid
   ],
-  providers: [MessageService], // Proveedor local para activar los Toasts visuales
+  providers: [MessageService],
   templateUrl: './registro.html',
   styleUrl: './registro.css'
 })
 export class RegistroComponent {
   private readonly fb = inject(FormBuilder);
-  private readonly usuariosService = inject(UsuariosService);
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
+  private readonly http = inject(HttpClient);
 
   form = this.fb.group({
     nombre: ['', Validators.required],
@@ -47,9 +46,21 @@ export class RegistroComponent {
   registrar() {
     if (this.form.invalid) return;
 
-    this.usuariosService.registrar(this.form.value).subscribe({
+    const { nombre, correo, password } = this.form.getRawValue();
+
+
+    const payload = {
+      id: correo, // Tu entidad JPA maneja String ID no autoincremental, usamos el correo como llave única
+      nombre: nombre,
+      email: correo,
+      password: password,
+      rolUser: 'OPERADOR' // Envió de rol requerido por la restricción de tu base de datos
+    };
+
+    this.http.post('http://localhost:8080/api/auth/registrar', payload, {
+      responseType: 'text'
+    }).subscribe({
       next: () => {
-        // Notificación de éxito espectacular en la esquina superior derecha
         this.messageService.add({
           severity: 'success',
           summary: '¡Acceso Concedido!',
@@ -57,19 +68,16 @@ export class RegistroComponent {
           life: 3000
         });
 
-        // Espera 1.5 segundos para que el usuario vea el efecto visual antes de redirigir
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 1500);
       },
       error: (err) => {
         console.error('Detalle del error en Consola:', err);
-
-        // Notificación de error premium en lugar de un alert plano del navegador
         this.messageService.add({
           severity: 'error',
           summary: 'Fallo de Sincronización',
-          detail: 'No se pudo establecer conexión con el servidor central (8080).',
+          detail: 'No se pudo completar el registro en el servidor central.',
           life: 4000
         });
       }
