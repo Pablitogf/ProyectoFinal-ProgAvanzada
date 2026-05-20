@@ -10,7 +10,7 @@ public record CrearSolicitudRequest(
         Long tipoSolicitudId,
 
         @NotBlank
-        @Size(min = 20, max = 1000)
+        @Size(min = 10, max = 1000)
         String descripcion,
 
         @NotBlank

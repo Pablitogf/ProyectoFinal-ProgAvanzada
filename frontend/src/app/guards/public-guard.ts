@@ -1,13 +1,13 @@
-// src/app/guards/auth-guard.ts
+// src/app/guards/public-guard.ts
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../servicios/auth';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const publicGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   return authService.isAuthenticated()
-    ? true
-    : router.createUrlTree(['/login']);
+    ? router.createUrlTree(['/lista-solicitudes'])
+    : true;
 };

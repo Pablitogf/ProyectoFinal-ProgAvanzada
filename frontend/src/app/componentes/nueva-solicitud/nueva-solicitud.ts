@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SolicitudesService } from '../../servicios/solicitudes';
+import { AuthService } from '../../servicios/auth';
 
 @Component({
   selector: 'app-nueva-solicitud',
@@ -13,12 +14,12 @@ import { SolicitudesService } from '../../servicios/solicitudes';
 export class NuevaSolicitud {
   private fb = inject(FormBuilder);
   private solicitudesService = inject(SolicitudesService);
+  private authService = inject(AuthService);
   private router = inject(Router);
 
-  // Mantenemos tu formulario exactamente igual a tu HTML
   form = this.fb.group({
     tipo: ['', Validators.required],
-    descripcionBreve: ['', [Validators.required, Validators.minLength(10)]],
+    descripcionBreve: ['', [Validators.required, Validators.minLength(10)]],  // ← 20 igual que el backend
     prioridad: ['MEDIA', Validators.required]
   });
 
@@ -26,27 +27,27 @@ export class NuevaSolicitud {
     if (this.form.valid) {
       const valores = this.form.value;
 
-      // 🔄 MAPEO AL DTO DE JAVA (CrearSolicitudRequest)
-      // Convertimos el String de tu select al ID numérico que exige el catálogo de Java
-      let idCatalogo = 1; // Por defecto SOPORTE (Id: 1)
-      if (valores.tipo === 'MANTENIMIENTO') idCatalogo = 2;
-      if (valores.tipo === 'SOFTWARE') idCatalogo = 3;
-
-      const payload = {
-        tipoSolicitudId: idCatalogo,             // Java: request.tipoSolicitudId()
-        descripcion: valores.descripcionBreve,    // Java: request.descripcion()
-        usuarioId: 1                              // Java: request.usuarioId() -> Quemamos id 1 temporalmente para pruebas
+      const tipoMap: Record<string, number> = {
+        'SOPORTE': 1,
+        'MANTENIMIENTO': 2,
+        'SOFTWARE': 3,
       };
 
-      // Enviamos el payload corregido al servidor
+      const payload = {
+        tipoSolicitudId: tipoMap[valores.tipo ?? ''] ?? 1,
+        descripcion: valores.descripcionBreve ?? '',
+        canalOrigen: 'WEB',
+        usuarioId: this.authService.getUserId()  // ← toma el id real del JWT
+      };
+
       this.solicitudesService.crear(payload).subscribe({
         next: () => {
           alert('¡Solicitud creada exitosamente!');
           this.router.navigate(['/lista-solicitudes']);
         },
         error: (err) => {
-          console.error('Detalles del error 400:', err);
-          alert('Error al guardar la solicitud. Revisa la consola.');
+          console.error('Error:', err);
+          alert(`Error ${err.status}: ${err.error?.message ?? 'Revisa la consola.'}`);
         }
       });
     }

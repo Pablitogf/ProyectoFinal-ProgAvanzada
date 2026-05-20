@@ -1,3 +1,4 @@
+// src/app/servicios/auth.ts
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -8,18 +9,13 @@ import { LoginRequest, TokenResponse } from '../modelos/login-api';
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
-
-
   private readonly API_URL = 'http://localhost:8080/api/auth';
 
-  /** Fuente única de verdad para sesión (Guía 16). */
   readonly isAuthenticated = signal(this.readTokenFromStorage());
-
 
   login(request: LoginRequest): Observable<TokenResponse> {
     return this.http.post<TokenResponse>(`${this.API_URL}/login`, request);
   }
-
 
   registrar(request: any): Observable<string> {
     return this.http.post('http://localhost:8080/api/auth/registrar', request, {
@@ -37,6 +33,35 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
     this.isAuthenticated.set(false);
+  }
+
+  getToken(): string | null {
+    try {
+      return localStorage.getItem('token');
+    } catch {
+      return null;
+    }
+  }
+
+  getRoles(): string[] {
+    try {
+      const roles = localStorage.getItem('roles');
+      return roles ? JSON.parse(roles) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  getUserId(): string {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return '';
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      // Spring Boot por defecto pone el username/email en 'sub'
+      return payload.sub ?? payload.id ?? payload.userId ?? '';
+    } catch {
+      return '';
+    }
   }
 
   private readTokenFromStorage(): boolean {

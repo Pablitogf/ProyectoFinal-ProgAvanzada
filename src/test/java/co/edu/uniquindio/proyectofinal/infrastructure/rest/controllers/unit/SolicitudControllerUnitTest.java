@@ -46,6 +46,11 @@ class SolicitudControllerUnitTest {
         mockMvc.perform(get("/api/solicitudes/123")
                         .with(jwt()))
                 .andExpect(status().isOk());
+        when(obtenerSolicitudUseCase.ejecutar("123"))
+                .thenReturn(null);
+
+        when(mapper.toDetalleResponse(any()))
+                .thenReturn(null);
     }
 
     @Test
