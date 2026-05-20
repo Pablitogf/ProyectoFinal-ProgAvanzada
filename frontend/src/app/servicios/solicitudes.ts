@@ -1,10 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { SolicitudResumen } from '../modelos/solicitudes';
+import { PageResponse } from '../dto/page-response';
 
 interface SpringPage<T> {
   content: T[];
+  totalElements?: number;
+  totalPages?: number;
+  size?: number;
+  number?: number;
 }
 
 interface SolicitudApiDetalle {
@@ -23,11 +28,8 @@ interface SolicitudApiDetalle {
 })
 export class SolicitudesService {
   private readonly http = inject(HttpClient);
-
-  // 🟢 CORREGIDO: Apunta explícitamente al puerto 8080 de tu Spring Boot
   private readonly apiUrl = 'http://localhost:8080/api/solicitudes';
 
-  /** Lista solicitudes no cerradas */
   listar(): Observable<SolicitudResumen[]> {
     return this.http
       .get<SpringPage<SolicitudApiDetalle>>(`${this.apiUrl}/consultas/paginadas`, {
@@ -36,13 +38,27 @@ export class SolicitudesService {
       .pipe(map((page) => (page.content ?? []).map(adaptarResumen)));
   }
 
-  /** Enbía la nueva solicitud al backend */
+  listarPaginado(page: number, size: number): Observable<PageResponse<SolicitudResumen>> {
+    const params = new HttpParams()
+      .set('pagina', page)
+      .set('tamano', size);
+    return this.http
+      .get<SpringPage<SolicitudApiDetalle>>(`${this.apiUrl}/consultas/paginadas`, { params })
+      .pipe(
+        map(p => ({
+          content: (p.content ?? []).map(adaptarResumen),
+          totalElements: p.totalElements ?? 0,
+          totalPages: p.totalPages ?? 0,
+          size: p.size ?? size,
+          number: p.number ?? 0
+        }))
+      );
+  }
+
   crear(solicitud: any): Observable<any> {
     return this.http.post(this.apiUrl, solicitud);
   }
 }
-
-// --- Funciones auxiliares (se mantienen exactamente igual) ---
 
 function adaptarResumen(s: SolicitudApiDetalle): SolicitudResumen {
   const fecha = normalizarFecha(s.fechaCreacion);

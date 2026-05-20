@@ -3,6 +3,7 @@ import { RouterLink, Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SolicitudesService } from '../../servicios/solicitudes';
 import { AuthService } from '../../servicios/auth';
+import { NotificationService } from '../../servicios/notification';
 
 @Component({
   selector: 'app-nueva-solicitud',
@@ -16,10 +17,11 @@ export class NuevaSolicitud {
   private solicitudesService = inject(SolicitudesService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private notificationService = inject(NotificationService);
 
   form = this.fb.group({
     tipo: ['', Validators.required],
-    descripcionBreve: ['', [Validators.required, Validators.minLength(10)]],  // ← 20 igual que el backend
+    descripcionBreve: ['', [Validators.required, Validators.minLength(10)]],
     prioridad: ['MEDIA', Validators.required]
   });
 
@@ -37,17 +39,17 @@ export class NuevaSolicitud {
         tipoSolicitudId: tipoMap[valores.tipo ?? ''] ?? 1,
         descripcion: valores.descripcionBreve ?? '',
         canalOrigen: 'WEB',
-        usuarioId: this.authService.getUserId()  // ← toma el id real del JWT
+        usuarioId: this.authService.getUserId()
       };
 
       this.solicitudesService.crear(payload).subscribe({
         next: () => {
-          alert('¡Solicitud creada exitosamente!');
+          this.notificationService.success('¡Éxito!', 'La solicitud fue registrada correctamente.');
           this.router.navigate(['/lista-solicitudes']);
         },
         error: (err) => {
           console.error('Error:', err);
-          alert(`Error ${err.status}: ${err.error?.message ?? 'Revisa la consola.'}`);
+          this.notificationService.error('Error', `No se pudo crear la solicitud (${err.status}).`);
         }
       });
     }

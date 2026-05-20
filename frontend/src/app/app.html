@@ -1,7 +1,6 @@
+<p-toast position="top-right"></p-toast>
 <app-header />
-<router-outlet />
-@defer (on viewport) {
-  <app-footer />
-} @placeholder {
-  <div class="mt-5" aria-hidden="true"></div>
-}
+<main>
+  <router-outlet />
+</main>
+<app-footer />

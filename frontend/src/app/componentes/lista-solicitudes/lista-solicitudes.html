@@ -1,76 +1,60 @@
-<div class="container mt-5 main-content animate-fade-in">
-
-  <div class="d-flex justify-content-between align-items-center mb-5 header-panel">
-    <h1 id="titulo-listado" class="h3 mb-0">
-      <i class="pi pi-list-check title-icon"></i> Mis Solicitudes
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">
+      <i class="pi pi-list-check me-2"></i>Mis Solicitudes
     </h1>
     <a routerLink="/nueva-solicitud" class="text-decoration-none">
       <p-button label="Nueva solicitud" icon="pi pi-plus" severity="primary" size="small" [raised]="true" />
     </a>
   </div>
 
-  @if (solicitudes().length === 0) {
-    <div class="empty-state text-center py-5">
-      <i class="pi pi-inbox empty-icon mb-3"></i>
-      <p class="h4 font-bold text-slate-700">No hay solicitudes para mostrar.</p>
-      <p class="text-muted small">Inicia sesión y asegúrate de que el backend esté en ejecución (puerto 8080).</p>
-      <a routerLink="/nueva-solicitud" class="mt-4 inline-block text-decoration-none">
-        <p-button label="Crear mi primera solicitud" icon="pi pi-send" severity="secondary" [outlined]="true" />
-      </a>
+  @if (cargando()) {
+    <div class="d-flex justify-content-center my-5">
+      <p-progressSpinner strokeWidth="4" />
     </div>
   } @else {
-    <div class="row g-4">
-      @for (solicitud of solicitudes(); track solicitud.id) {
-        <div class="col-md-6 col-lg-4">
+    <p-table [value]="solicitudes()" stripedRows [tableStyle]="{ 'min-width': '50rem' }">
+      <ng-template #header>
+        <tr>
+          <th>Código</th>
+          <th>Tipo</th>
+          <th>Estado</th>
+          <th>Prioridad</th>
+          <th>Fecha</th>
+        </tr>
+      </ng-template>
 
-          <p-card class="solicitud-card h-100" [class.prioridad-alta]="solicitud.prioridad === 'ALTA'">
+      <ng-template #body let-solicitud>
+        <tr>
+          <td><strong>{{ solicitud.codigo }}</strong></td>
+          <td>{{ solicitud.tipo }}</td>
+          <td>
+            <p-tag [value]="solicitud.estado"
+                   [severity]="tagSeveridadEstado(solicitud.estado)" />
+          </td>
+          <td>
+            <p-tag [value]="solicitud.prioridad ?? 'Pendiente'"
+                   [severity]="tagSeveridadPrioridad(solicitud.prioridad)" />
+          </td>
+          <td>{{ solicitud.fechaCreacion | slice:0:10 }}</td>
+        </tr>
+      </ng-template>
 
-            <ng-template pTemplate="header">
-              <div class="card-custom-header d-flex justify-content-between align-items-center">
-                <span class="solicitud-code"><i class="pi pi-hashtag mr-1"></i>{{ solicitud.codigo }}</span>
-                <p-tag [value]="solicitud.estado" [severity]="tagSeveridadEstado(solicitud.estado)" [rounded]="true" />
-              </div>
-            </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="5" class="text-center py-4">
+            <i class="pi pi-inbox" style="font-size: 2rem"></i>
+            <p class="mt-2 text-muted">No hay solicitudes registradas.</p>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
 
-            <div class="card-custom-content">
-              <div class="solicitud-type-badge mb-3">
-                <i class="pi pi-tag"></i> <span>{{ solicitud.tipo }}</span>
-              </div>
-
-              @if (solicitud.descripcionBreve) {
-                <p class="solicitud-description">{{ solicitud.descripcionBreve }}</p>
-              }
-
-              <div class="solicitud-date">
-                <i class="pi pi-calendar"></i>
-                <span>
-                  @if (solicitud.fechaCreacion.length >= 10) {
-                    {{ solicitud.fechaCreacion | slice: 0 : 10 }}
-                  } @else {
-                    {{ solicitud.fechaCreacion }}
-                  }
-                </span>
-              </div>
-            </div>
-
-            <ng-template pTemplate="footer">
-              <div class="card-custom-footer d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2">
-                @if (solicitud.prioridad) {
-                  <p-tag
-                    [value]="solicitud.prioridad"
-                    [severity]="tagSeveridadPrioridad(solicitud.prioridad)"
-                    icon="pi pi-arrow-up" />
-                } @else {
-                  <p-tag value="Prioridad: Pendiente" severity="secondary" />
-                }
-                <small class="owner-name"><i class="pi pi-user mr-1"></i>{{ solicitud.nombrePropietario }}</small>
-              </div>
-            </ng-template>
-
-          </p-card>
-
-        </div>
-      }
-    </div>
+    <p-paginator
+      [rows]="size()"
+      [totalRecords]="totalElements()"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      (onPageChange)="onPageChange($event)">
+    </p-paginator>
   }
 </div>

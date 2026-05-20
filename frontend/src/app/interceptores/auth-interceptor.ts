@@ -4,29 +4,31 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../servicios/auth';
+import { NotificationService } from '../servicios/notification';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
+  const notificationService = inject(NotificationService);
 
-  // Si no está autenticado, pasa la petición sin token (ej: login, registro)
   if (!authService.isAuthenticated()) {
     return next(req);
   }
 
-  // Clona la petición añadiendo el header Authorization
   const authReq = req.clone({
-    setHeaders: {
-      Authorization: `Bearer ${authService.getToken()}`
-    }
+    setHeaders: { Authorization: `Bearer ${authService.getToken()}` }
   });
 
   return next(authReq).pipe(
     catchError(error => {
-      // Token expirado o inválido → cerrar sesión y redirigir
       if (error.status === 401) {
         authService.logout();
         router.navigate(['/login']);
+        notificationService.warn('Sesión expirada', 'Por favor inicie sesión nuevamente.');
+      } else if (error.status === 403) {
+        notificationService.error('Acceso denegado', 'No tiene permisos para esta acción.');
+      } else if (error.status === 0) {
+        notificationService.error('Sin conexión', 'No se pudo conectar con el servidor.');
       }
       return throwError(() => error);
     })

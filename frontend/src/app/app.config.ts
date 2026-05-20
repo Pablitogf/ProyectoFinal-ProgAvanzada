@@ -3,12 +3,9 @@ import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/
 import { provideRouter } from '@angular/router';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-
-// Importaciones oficiales para versiones modernas de PrimeNG
 import { providePrimeNG } from 'primeng/config';
-// Reemplaza por completo la línea de tu foto por esta:
+import { MessageService } from 'primeng/api';  // ← NUEVO
 import Aura from '@primeng/themes/aura';
-
 import { routes } from './app.routes';
 import { authInterceptor } from './interceptores/auth-interceptor';
 
@@ -17,15 +14,13 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    // Tu interceptor original se queda intacto y seguro aquí:
     provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideAnimationsAsync(),
+    MessageService,  // ← NUEVO (obligatorio para p-toast)
     providePrimeNG({
       theme: {
         preset: Aura,
-        options: {
-          darkModeSelector: '.app-dark'
-        }
+        options: { darkModeSelector: '.app-dark' }
       }
     })
   ],
