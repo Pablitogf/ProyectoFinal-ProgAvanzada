@@ -4,11 +4,12 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SolicitudesService } from '../../servicios/solicitudes';
 import { AuthService } from '../../servicios/auth';
 import { NotificationService } from '../../servicios/notification';
+import { CommonModule } from '@angular/common'; // Agregado para usar clases dinámicas de Angular
 
 @Component({
   selector: 'app-nueva-solicitud',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule],
   templateUrl: './nueva-solicitud.html',
   styleUrl: './nueva-solicitud.css',
 })
@@ -24,6 +25,11 @@ export class NuevaSolicitud {
     descripcionBreve: ['', [Validators.required, Validators.minLength(10)]],
     prioridad: ['MEDIA', Validators.required]
   });
+
+  // Métodito mágico para actualizar la prioridad de los botones cyber de forma reactiva
+  cambiarPrioridad(nivel: 'BAJA' | 'MEDIA' | 'ALTA') {
+    this.form.get('prioridad')?.setValue(nivel);
+  }
 
   enviar() {
     if (this.form.valid) {

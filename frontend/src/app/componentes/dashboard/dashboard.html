@@ -1,1 +1,102 @@
-<p>dashboard works!</p>
+<div class="dashboard-wrapper container-fluid p-4">
+
+  <div class="main-banner-card mb-4">
+    <div class="banner-layout">
+      <div class="text-section">
+        <h1 class="banner-title">SISTEMA INTEGRAL <span class="brand-highlight">UQ</span></h1>
+        <p class="banner-description">
+          Bienvenido al centro de mando. Aquí puedes gestionar, monitorear y optimizar todas las solicitudes académicas en tiempo real.
+        </p>
+        <div class="button-group">
+          <button class="btn-banner btn-cyan"><i class="fa-solid fa-plus me-2"></i>Nueva Tarea</button>
+          <button class="btn-banner btn-outline"><i class="fa-solid fa-chart-simple me-2"></i>Ver Listado</button>
+        </div>
+      </div>
+
+      <div class="graphic-section">
+        <div class="sun-sphere-container">
+          <div class="sun-glow"></div>
+          <div class="sun-sphere"></div>
+          <div class="sun-rays"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="kpi-card card-totales">
+        <div class="kpi-content">
+          <span class="kpi-title">TOTALES</span>
+          <span class="kpi-value">128</span>
+        </div>
+        <i class="fa-solid fa-folder kpi-icon"></i>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="kpi-card card-pendientes">
+        <div class="kpi-content">
+          <span class="kpi-title">PENDIENTES</span>
+          <span class="kpi-value">14</span>
+        </div>
+        <i class="fa-solid fa-clock kpi-icon"></i>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="kpi-card card-resueltas">
+        <div class="kpi-content">
+          <span class="kpi-title">RESUELTAS</span>
+          <span class="kpi-value">114</span>
+        </div>
+        <i class="fa-solid fa-circle-check kpi-icon"></i>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="kpi-card card-urgentes">
+        <div class="kpi-content">
+          <span class="kpi-title">URGENTES</span>
+          <span class="kpi-value">3</span>
+        </div>
+        <i class="fa-solid fa-fire kpi-icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="activity-card p-4">
+        <h3 class="section-title mb-4">Actividad Reciente</h3>
+        <div class="activity-timeline">
+          <div class="activity-item d-flex justify-content-between align-items-center py-3 border-bottom">
+            <div class="d-flex align-items-center gap-3">
+              <span class="badge-icon icon-blue"><i class="fa-solid fa-envelope"></i></span>
+              <span class="activity-text">Solicitud <strong>#4582</strong> creada por Juan Pérez</span>
+            </div>
+            <span class="activity-time">Hace 2 min</span>
+          </div>
+          <div class="activity-item d-flex justify-content-between align-items-center py-3">
+            <div class="d-flex align-items-center gap-3">
+              <span class="badge-icon icon-green"><i class="fa-solid fa-check"></i></span>
+              <span class="activity-text">Mantenimiento <strong>#4570</strong> finalizado</span>
+            </div>
+            <span class="activity-time">Hace 1 hora</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="status-card p-4">
+        <h3 class="status-title mb-4">Estado del Sistema</h3>
+        <div class="status-list d-flex flex-column gap-3 mb-4">
+          <div class="status-item"><span class="dot online"></span> Backend Conectado</div>
+          <div class="status-item"><span class="dot online"></span> Base de Datos Activa</div>
+        </div>
+        <div class="status-footer border-top pt-3">
+          <span class="version-text">Versión: <span class="version-highlight">3.0-Flash (Stable)</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

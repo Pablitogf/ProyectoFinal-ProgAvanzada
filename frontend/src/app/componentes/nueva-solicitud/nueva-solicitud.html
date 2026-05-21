@@ -1,49 +1,98 @@
-<div class="container mt-4">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <form [formGroup]="form" (ngSubmit)="enviar()" class="card shadow-sm">
-        <div class="card-header bg-primary text-white py-3">
-          <h1 class="h5 mb-0"><i class="fa-solid fa-file-circle-plus me-2"></i>Nueva Solicitud de Servicio</h1>
-        </div>
+<div class="quantum-form-workspace p-4 d-flex justify-content-center align-items-center">
 
-        <div class="card-body p-4">
-          <div class="mb-3">
-            <label class="form-label fw-bold">Tipo de requerimiento</label>
-            <select formControlName="tipo" class="form-select">
-              <option value="">Seleccione una opción...</option>
-              <option value="SOPORTE">Soporte Técnico</option>
-              <option value="MANTENIMIENTO">Mantenimiento General</option>
-              <option value="SOFTWARE">Instalación de Software</option>
-            </select>
-          </div>
+  <div class="cyber-form-card" [formGroup]="form">
 
-          <div class="mb-3">
-            <label class="form-label fw-bold">Descripción detallada</label>
-            <textarea formControlName="descripcionBreve" class="form-control" rows="3" placeholder="Explique brevemente su solicitud..."></textarea>
-            <div class="form-text">Mínimo 10 caracteres para una mejor atención.</div>          </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-bold d-block">Nivel de prioridad</label>
-            <div class="btn-group w-100" role="group">
-              <input type="radio" class="btn-check" formControlName="prioridad" value="BAJA" id="baja" autocomplete="off">
-              <label class="btn btn-outline-success" for="baja">Baja</label>
-
-              <input type="radio" class="btn-check" formControlName="prioridad" value="MEDIA" id="media" autocomplete="off">
-              <label class="btn btn-outline-warning" for="media">Media</label>
-
-              <input type="radio" class="btn-check" formControlName="prioridad" value="ALTA" id="alta" autocomplete="off">
-              <label class="btn btn-outline-danger" for="alta">Alta</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-footer bg-light p-3 d-flex justify-content-end gap-2">
-          <a routerLink="/lista-solicitudes" class="btn btn-secondary">Cancelar</a>
-          <button type="submit" [disabled]="form.invalid" class="btn btn-primary px-4">
-            <i class="fa-solid fa-cloud-arrow-up me-2"></i>Guardar Solicitud
-          </button>
-        </div>
-      </form>
+    <div class="form-terminal-header d-flex align-items-center gap-3">
+      <div class="terminal-icon-shell">
+        <i class="fa-solid fa-file-invoice-dollar text-cyan"></i>
+      </div>
+      <div>
+        <h3 class="terminal-card-title m-0">Nueva Solicitud de Servicio</h3>
+        <p class="terminal-card-subtitle m-0">Registra un nuevo requerimiento en el Sistema Integral UQ</p>
+      </div>
     </div>
+
+    <div class="form-terminal-body mt-4">
+
+      <div class="input-telemetry-group mb-4">
+        <label class="telemetry-field-label">
+          <i class="fa-solid fa-cube text-cyan me-2"></i>Tipo de requerimiento
+        </label>
+        <div class="cyber-input-wrapper">
+          <select class="cyber-select-control" formControlName="tipo">
+            <option value="" disabled selected>Seleccione una opción...</option>
+            <option value="SOPORTE">Soporte Técnico</option>
+            <option value="MANTENIMIENTO">Mantenimiento de Redes</option>
+            <option value="SOFTWARE">Desarrollo / Software</option>
+          </select>
+          <div class="select-arrow-cyber"><i class="fa-solid fa-chevron-down"></i></div>
+        </div>
+      </div>
+
+      <div class="input-telemetry-group mb-4">
+        <label class="telemetry-field-label">
+          <i class="fa-solid fa-pen-to-square text-cyan me-2"></i>Descripción detallada
+        </label>
+        <div class="cyber-input-wrapper">
+          <textarea
+            class="cyber-textarea-control"
+            rows="4"
+            formControlName="descripcionBreve"
+            placeholder="Explique detalladamente su solicitud para brindarle una mejor atención...">
+          </textarea>
+        </div>
+        <div class="field-restriction-tag mt-2" [class.text-danger]="form.get('descripcionBreve')?.invalid && form.get('descripcionBreve')?.touched">
+          <i class="fa-solid fa-circle-info me-1"></i> Mínimo 10 caracteres obligatorios.
+        </div>
+      </div>
+
+      <div class="input-telemetry-group mb-5">
+        <label class="telemetry-field-label">
+          <i class="fa-solid fa-triangle-exclamation text-cyan me-2"></i>Nivel de prioridad
+        </label>
+        <div class="priority-matrix-grid">
+
+          <div
+            class="priority-node-option priority-low"
+            [class.active]="form.get('prioridad')?.value === 'BAJA'"
+            (click)="cambiarPrioridad('BAJA')">
+            <span class="custom-indicator"></span>
+            <span class="node-text">Baja</span>
+          </div>
+
+          <div
+            class="priority-node-option priority-medium"
+            [class.active]="form.get('prioridad')?.value === 'MEDIA'"
+            (click)="cambiarPrioridad('MEDIA')">
+            <span class="custom-indicator"></span>
+            <span class="node-text">Media</span>
+          </div>
+
+          <div
+            class="priority-node-option priority-high"
+            [class.active]="form.get('prioridad')?.value === 'ALTA'"
+            (click)="cambiarPrioridad('ALTA')">
+            <span class="custom-indicator"></span>
+            <span class="node-text">Alta</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-action-panel d-flex justify-content-end align-items-center gap-3">
+        <button type="button" class="btn-cyber-outline" routerLink="/lista-solicitudes">
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn-cyber-plasma"
+          [disabled]="form.invalid"
+          (click)="enviar()">
+          <i class="fa-solid fa-cloud-arrow-up me-2"></i>Guardar Solicitud
+        </button>
+      </div>
+
+    </div>
+
   </div>
 </div>

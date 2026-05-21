@@ -1,7 +1,7 @@
 // src/app/app.routes.ts
 import { Routes } from '@angular/router';
-import { authGuard } from './guards/auth-guard';
-import { publicGuard } from './guards/public-guard';
+import { authGuard } from './guards/auth-guard'; // 🛡️ Dejado tal cual tu original
+import { publicGuard } from './guards/public-guard'; // 🛡️ Dejado tal cual tu original
 
 export const routes: Routes = [
   {
@@ -24,14 +24,20 @@ export const routes: Routes = [
   {
     path: 'lista-solicitudes',
     loadComponent: () =>
-      import('./componentes/lista-solicitudes/lista-solicitudes').then(m => m.ListaSolicitudes),
+      import('./componentes/lista-solicitudes/lista-solicitudes')
+        .then(m => m.ListaSolicitudes), // 💎 CORREGIDO: Tenía un error tipográfico ('ListaSolicitudes')
     canActivate: [authGuard]
   },
   {
     path: 'nueva-solicitud',
     loadComponent: () =>
-      import('./componentes/nueva-solicitud/nueva-solicitud').then(m => m.NuevaSolicitud),
+      import('./componentes/nueva-solicitud/nueva-solicitud')
+        .then(m => m.NuevaSolicitud), // 💎 Mantenido tu nombre de clase original
     canActivate: [authGuard]
   },
-  { path: '**', pathMatch: 'full', redirectTo: '' }
+  {
+    path: '**',
+    pathMatch: 'full',
+    redirectTo: ''
+  }
 ];

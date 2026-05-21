@@ -1,123 +1,257 @@
-/* Corrección de la Guía 17: Evita fallos de renderizado en p-card */
-:host {
-  display: block;
-  background-color: #f8fafc;
+/* ============================================================
+   🌌 WORKSPACE DE ULTRA ALTA DEFINICIÓN (MODO REACTIVADO)
+   ============================================================ */
+.quantum-terminal-workspace {
+  background: #010610 !important;
   min-height: 100vh;
-  padding-bottom: 3rem;
+  position: relative;
 }
 
-#titulo-listado {
-  color: #1e3c72;
-  font-weight: 700;
-  display: flex;
+.section-main-title {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  font-size: 2.2rem !important;
+  text-shadow: 0 0 15px rgba(0, 203, 214, 0.4) !important;
+}
+
+.system-status-tag {
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  background: rgba(0, 253, 214, 0.05) !important;
+  border: 1px solid rgba(0, 253, 214, 0.25) !important;
+  padding: 0.35rem 0.8rem !important;
+  border-radius: 4px !important;
+  font-size: 0.7rem !important;
+  color: #00cbd6 !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.5px;
 }
 
-.title-icon {
-  font-size: 1.75rem;
-  color: #2a5298;
+.pulse-indicator {
+  width: 6px; height: 6px;
+  background-color: #00ffd2 !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 10px #00ffd2 !important;
+  animation: telemetryPulse 1.5s infinite alternate;
 }
 
-/* Encapsulación profunda para inyectar tus colores sobre el sombreado Aura de PrimeNG */
-.solicitud-card {
-  display: block;
-  height: 100%;
-}
-
-:host ::ng-deep .solicitud-card .p-card {
+/* BOTÓN DE NUEVA SOLICITUD HIPERILUMINADO */
+.btn-quantum-neon {
+  background: #00f0ff !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 1px;
+  border: none !important;
+  padding: 0.8rem 2rem !important;
   border-radius: 12px !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  box-shadow: 0 0 25px #00f0ff, inset 0 0 10px rgba(255,255,255,0.6) !important;
+  text-shadow: 0 0 2px rgba(255,255,255,0.8) !important;
+  transition: all 0.2s ease-in-out;
+}
+.btn-quantum-neon:hover {
+  transform: scale(1.03) !important;
+  box-shadow: 0 0 40px #00f0ff, inset 0 0 15px rgba(255,255,255,0.9) !important;
+}
+
+/* CONTENEDOR MAESTRO CON LÍNEAS DE CIRCUITO INTEGRADO */
+.circuit-board-wrapper {
+  background: #030a16 !important;
+  border: 1px solid rgba(0, 240, 255, 0.15) !important;
+  border-radius: 16px !important;
+  box-shadow: inset 0 0 30px rgba(0, 240, 255, 0.05), 0 20px 50px rgba(0,0,0,0.7) !important;
+  position: relative;
   overflow: hidden;
-  height: 100%;
+}
+
+/* PATRÓN VECTORIAL DE CIRCUITOS DE FONDO */
+.circuit-lines-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  opacity: 0.08;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3Y%3Cpath d='M10 10 L30 10 L40 20 L40 50 L60 60 L90 60 M0 40 L20 40 L30 50 L30 80 L50 90' stroke='%2300f0ff' stroke-width='1.5' fill='none'/%3Y%3Ccircle cx='90' cy='60' r='3' fill='%2300f0ff'/%3Y%3Ccircle cx='50' cy='90' r='3' fill='%2300f0ff'/%3Y%3C/svg%3Y");
+}
+
+/* MARCO HOLOGRÁFICO DE BORDES DOBLES CONTINUOS */
+.hologram-viewport-container {
+  padding: 1.5rem !important;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+/* TARJETAS CONTENEDORAS DE DATOS (FILAS INDIVIDUALES) */
+.circuit-row-card {
+  position: relative;
+  background: rgba(7, 16, 31, 0.8) !important;
+  border: 1px solid rgba(0, 240, 255, 0.25) !important;
+  border-radius: 10px !important;
+  display: grid;
+  grid-template-columns: 1.2fr 1.5fr 1fr 1fr;
+  align-items: center;
+  padding: 1.5rem 2rem !important;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+  transition: all 0.25s ease-in-out;
+}
+
+/* EFECTO DE GLOW INTERACTIVO AL PASAR EL RATÓN */
+.circuit-row-card:hover {
+  border-color: #00f0ff !important;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), inset 0 0 15px rgba(0, 240, 255, 0.1) !important;
+  transform: translateY(-2px);
+}
+
+.laser-border-glow {
+  position: absolute;
+  top: 0; left: 0; width: 4px; height: 100%;
+  background: #00f0ff !important;
+  box-shadow: 0 0 12px #00f0ff !important;
+  border-radius: 10px 0 0 10px;
+}
+
+/* TIPOGRAFÍAS Y LABELS */
+.data-quantum-block {
   display: flex;
   flex-direction: column;
 }
 
-:host ::ng-deep .solicitud-card .p-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 20px -3px rgba(30, 60, 114, 0.15) !important;
-  border-color: #cbd5e1 !important;
+.meta-tech-label {
+  font-size: 0.65rem !important;
+  color: #52667d !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px;
 }
 
-/* Estilo de la Guía 16: Borde izquierdo para Prioridades Críticas */
-.solicitud-card.prioridad-alta :host ::ng-deep .p-card {
-  border-left: 5px solid #ef4444 !important;
+.code-cypher-glow {
+  font-family: monospace !important;
+  font-size: 1.1rem !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255,255,255,0.3) !important;
 }
 
-.card-custom-header {
-  padding: 1.25rem 1.25rem 0.75rem 1.25rem;
-  border-bottom: 1px dashed #f1f5f9;
+.type-text-light {
+  color: #dae4f0 !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
 }
 
-.solicitud-code {
-  font-family: monospace;
-  font-weight: 700;
-  color: #334155;
+.date-stamped {
+  color: #6a7e96 !important;
+  font-size: 0.85rem !important;
+  font-weight: 500;
 }
 
-:host ::ng-deep .p-card-content {
-  padding: 1.25rem !important;
-  flex-grow: 1;
+/* CÁPSULAS DE PLASMA DE ALTA ILUMINACIÓN (ESTADOS Y PRIORIDADES) */
+.plasma-badge {
+  display: inline-block;
+  padding: 0.4rem 1.2rem !important;
+  border-radius: 20px !important;
+  font-size: 0.75rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.solicitud-type-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background-color: #f1f5f9;
-  color: #475569;
-  padding: 0.25rem 0.6rem;
-  border-radius: 6px;
-  font-size: 0.8rem;
+/* Neon Azul Eléctrico */
+.badge-cyan-glow {
+  background: rgba(0, 180, 216, 0.12) !important;
+  color: #00e5ff !important;
+  border: 1px solid #00b4d8 !important;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.35), inset 0 0 8px rgba(0, 229, 255, 0.2) !important;
+}
+
+/* Neon Ámbar Radioactivo */
+.badge-amber-glow {
+  background: rgba(245, 158, 11, 0.12) !important;
+  color: #ffb703 !important;
+  border: 1px solid #f59e0b !important;
+  box-shadow: 0 0 15px rgba(255, 183, 3, 0.35), inset 0 0 8px rgba(255, 183, 3, 0.2) !important;
+}
+
+/* BARRA DE TELEMETRÍA (PAGINADOR INFERIOR) */
+.telemetry-pagination-bar {
+  background: #040d1a !important;
+  padding: 1.25rem 2rem !important;
+  border-top: 1px solid rgba(0, 240, 255, 0.15) !important;
+}
+
+.telemetry-label {
+  color: #52667d !important;
+  font-size: 0.85rem !important;
   font-weight: 600;
 }
 
-.solicitud-description {
-  color: #334155;
-  font-size: 0.925rem;
-  line-height: 1.5;
-  margin-bottom: 1rem;
+.cyber-dropdown-shell {
+  display: inline-block;
+  background: #071120 !important;
+  border: 1px solid rgba(0, 240, 255, 0.2) !important;
+  border-radius: 6px !important;
+  padding: 0.2rem 0.5rem !important;
+  margin-left: 0.5rem;
 }
 
-.solicitud-date {
-  font-size: 0.825rem;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+.cyber-select-input {
+  background: transparent !important;
+  border: none !important;
+  color: #00f0ff !important;
+  font-family: monospace;
+  font-weight: 700;
+  outline: none !important;
 }
 
-:host ::ng-deep .p-card-footer {
-  padding: 0.75rem 1.25rem 1.25rem 1.25rem !important;
-  border-top: 1px dashed #f1f5f9;
-  margin-top: auto;
+/* NODOS DEL PAGINADOR INTERACTIVO */
+.step-node {
+  background: rgba(7, 17, 32, 0.8) !important;
+  border: 1px solid rgba(0, 240, 255, 0.25) !important;
+  color: #8da2bb !important;
+  min-width: 34px; height: 34px;
+  border-radius: 8px !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  transition: all 0.2s;
+}
+.step-node:hover:not([disabled]) {
+  border-color: #00f0ff !important;
+  color: #00f0ff !important;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3) !important;
+}
+.step-node.active {
+  background: #00b4d8 !important;
+  border-color: #00f0ff !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5) !important;
 }
 
-.owner-name {
-  color: #64748b;
-  font-weight: 500;
-  font-size: 0.85rem;
+.arrow-trigger {
+  background: transparent !important;
+  border: 1px solid rgba(52, 70, 92, 0.4) !important;
+  color: #52667d !important;
+  min-width: 34px; height: 34px;
+  border-radius: 8px !important;
+}
+.arrow-trigger:hover:not([disabled]) {
+  border-color: #00f0ff !important;
+  color: #00f0ff !important;
+}
+.arrow-trigger[disabled] {
+  opacity: 0.2;
+  cursor: not-allowed;
 }
 
-.empty-state {
-  background: white;
-  border-radius: 16px;
-  border: 2px dashed #cbd5e1;
+/* ANIMACIONES */
+@keyframes telemetryPulse {
+  0% { opacity: 0.6; }
+  100% { opacity: 1; filter: brightness(1.2); }
 }
 
-.empty-icon {
-  font-size: 3.5rem;
-  color: #94a3b8;
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+/* AJUSTES RESPONSIVE PARA SMARTPHONES */
+@media (max-width: 992px) {
+  .circuit-row-card {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem !important;
+  }
 }

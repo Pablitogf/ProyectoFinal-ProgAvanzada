@@ -1,3 +1,111 @@
-.navbar-nav .nav-link.active {
+/* Fondo oscuro e imponente alineado con el banner principal */
+.custom-navbar {
+  background: #0d1b2a; /* Azul marino profundo del centro de mando */
+  border-bottom: 2px solid #1b263b;
+  padding: 0.7rem 1rem;
+}
+
+/* Marca / Logo principal */
+.navbar-brand-custom {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.navbar-brand-custom:hover {
+  transform: scale(1.02);
+}
+
+.brand-icon-box {
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(0, 180, 216, 0.3);
+}
+
+.brand-text {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.brand-highlight {
+  color: #00cbd6; /* El cian característico de tu Estado del Sistema */
+}
+
+/* Estilo de los Botones de Navegación */
+.nav-btn {
+  color: #94a3b8 !important; /* Gris suave para elementos inactivos */
   font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.1rem !important;
+  border-radius: 10px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+
+/* Efecto Hover Inteligente */
+.nav-btn:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Estado Activo (Cuando estás en esa sección de la app) */
+.nav-btn.active {
+  color: #00cbd6 !important; /* Texto Cian */
+  background: rgba(0, 203, 214, 0.08) !important;
+  border-color: rgba(0, 203, 214, 0.2) !important;
+}
+
+/* Botón llamativo especial para "+ Nueva solicitud" */
+.nav-btn.highlighted {
+  background: rgba(0, 119, 182, 0.15);
+  border-color: rgba(0, 119, 182, 0.3);
+  color: #00b4d8 !important;
+}
+
+.nav-btn.highlighted:hover {
+  background: linear-gradient(135deg, #00b4d8 0%, #0077b6 100%);
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+  border-color: transparent;
+}
+
+/* Botón Premium de Cerrar Sesión */
+.btn-logout {
+  background: transparent;
+  border: 1.5px solid #ef4444; /* Rojo estético sutil */
+  color: #f87171;
+  padding: 0.55rem 1.2rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background: #ef4444; /* Sólido al pasar el mouse */
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-logout:active {
+  transform: translateY(0);
 }

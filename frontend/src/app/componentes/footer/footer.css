@@ -1,3 +1,36 @@
-.social-icons a {
-  font-size: 1.25rem;
+/* ============================================================
+   🌌 CYBER FOOTER: ELIMINACIÓN DE FRANGAS BLANCAS Y REDES
+   ============================================================ */
+.cyber-footer {
+  background: #02070f !important; /* Mismo color base profundo */
+  border-top: 1px solid rgba(0, 203, 214, 0.15) !important; /* Línea cian fina */
+  position: relative;
+  width: 100%;
+  z-index: 10;
+}
+
+.footer-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.footer-text {
+  color: #64748b !important; /* Texto gris de consola sutil */
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+}
+
+.system-icon {
+  color: rgba(0, 203, 214, 0.6) !important;
+  font-size: 0.9rem !important;
+}
+
+.tech-bracket {
+  color: rgba(0, 203, 214, 0.3) !important;
+  font-family: monospace !important;
+  font-size: 1rem !important;
+  font-weight: 700;
 }

@@ -1,34 +1,297 @@
-.animate-spin-slow {
-  animation: spin 10s linear infinite;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.smaller {
-  font-size: 0.75rem;
-}
-
-.rounded-5 {
-  border-radius: 2rem !important;
-}
-
-.card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-}
-
-.z-1 {
+/* ============================================================
+   📦 CONTENEDOR GENERAL DEL DASHBOARD
+   ============================================================ */
+.dashboard-wrapper {
+  position: relative;
   z-index: 1;
 }
 
-/* Efecto de degradado al Hero */
-.bg-dark {
-  background: linear-gradient(135deg, #1a237e 0%, #000000 100%) !important;
+/* ============================================================
+   🌟 BANNER PRINCIPAL MULTICAPA (CYBER LAB EXPERT)
+   ============================================================ */
+.main-banner-card {
+  position: relative;
+  background: linear-gradient(135deg, #02070f 0%, #081220 100%) !important;
+  border: 1px solid rgba(0, 203, 214, 0.3) !important;
+  border-radius: 24px !important;
+  padding: 3rem 2.5rem !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), inset 0 0 40px rgba(0, 203, 214, 0.08) !important;
+  overflow: hidden;
 }
+
+/* Red de cuadrículas y líneas de flujo central para rellenar vacíos */
+.cyber-grid-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image:
+    linear-gradient(rgba(0, 203, 214, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 203, 214, 0.03) 1px, transparent 1px) !important;
+  background-size: 25px 25px !important;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.circuit-lines-bg {
+  position: absolute;
+  top: 0; left: 15%; width: 70%; height: 100%;
+  background:
+    linear-gradient(90deg, transparent 49%, rgba(0, 203, 214, 0.06) 50%, transparent 51%),
+    transparent !important;
+  border-bottom: 1px dashed rgba(0, 203, 214, 0.05) !important;
+  pointer-events: none;
+}
+
+.data-stream-particles {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: radial-gradient(circle at 50% 20%, rgba(0, 180, 216, 0.05) 0%, transparent 60%) !important;
+  pointer-events: none;
+}
+
+/* Layout */
+.banner-layout {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  z-index: 2;
+}
+
+.text-section {
+  flex: 1.2;
+}
+
+/* Tag de Estado Superior */
+.system-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 203, 214, 0.1) !important;
+  border: 1px solid rgba(0, 203, 214, 0.3) !important;
+  padding: 0.35rem 0.8rem !important;
+  border-radius: 6px !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  color: #00cbd6 !important;
+  letter-spacing: 1.5px !important;
+  margin-bottom: 1.2rem !important;
+}
+
+.pulse-blink {
+  width: 7px; height: 7px;
+  background-color: #00cbd6 !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 10px #00cbd6 !important;
+  animation: telemetryBlink 1.5s infinite ease-in-out;
+}
+
+.banner-title {
+  font-size: 2.6rem !important;
+  font-weight: 900 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.5px !important;
+  margin-bottom: 1rem !important;
+  line-height: 1.1 !important;
+}
+
+.brand-highlight {
+  color: #00cbd6 !important;
+  text-shadow: 0 0 20px rgba(0, 203, 214, 0.6) !important;
+}
+
+.banner-description {
+  color: #94a3b8 !important;
+  font-size: 1.05rem !important;
+  line-height: 1.6 !important;
+  max-width: 620px !important;
+  margin-bottom: 2rem !important;
+}
+
+/* Botones */
+.button-group { display: flex; gap: 1rem; }
+.btn-banner {
+  padding: 0.75rem 1.75rem !important;
+  border-radius: 14px !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  border: none !important;
+  cursor: pointer;
+}
+.btn-cyan { background: #00b4d8 !important; color: #ffffff !important; box-shadow: 0 6px 20px rgba(0, 180, 216, 0.35) !important; }
+.btn-cyan:hover { background: #00cbd6 !important; transform: translateY(-2px) !important; box-shadow: 0 8px 25px rgba(0, 203, 214, 0.5) !important; }
+.btn-outline { background: transparent !important; border: 1.5px solid rgba(255, 255, 255, 0.15) !important; color: #ffffff !important; }
+.btn-outline:hover { background: rgba(255, 255, 255, 0.05) !important; border-color: rgba(0, 203, 214, 0.8) !important; transform: translateY(-2px) !important; color: #00cbd6 !important; }
+
+/* ============================================================
+   🌀 ACELERADOR CUÁNTICO CON INTERFAZ DE MONITOREO HUD
+   ============================================================ */
+.graphic-section {
+  position: relative;
+  flex: 0.8;
+  height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
+}
+
+.quantum-system-wrapper {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Anillos de telemetría periférica */
+.hud-scanner-ring {
+  position: absolute;
+  width: 100%; height: 100%;
+  border: 1px dashed rgba(0, 203, 214, 0.15) !important;
+  border-radius: 50% !important;
+  animation: spinHUD 20s linear infinite;
+}
+
+.hud-tech-ticks {
+  position: absolute;
+  width: 82%; height: 82%;
+  border: 2px double rgba(0, 180, 216, 0.2) !important;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  border-radius: 50% !important;
+  animation: spinHUD 10s linear infinite reverse;
+}
+
+/* Estructura del Núcleo y Anillos */
+.quantum-reactor {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  transform-style: preserve-3d;
+}
+
+.quantum-core {
+  position: absolute;
+  top: 32%; left: 32%; width: 36%; height: 36%;
+  border-radius: 50% !important;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #00cbd6 45%, #005683 85%, #010b14 100%) !important;
+  box-shadow: 0 0 35px #00cbd6, inset -4px -4px 12px rgba(0,0,0,0.8) !important;
+  z-index: 5;
+}
+
+.quantum-core-glow {
+  position: absolute;
+  top: 15%; left: 15%; width: 70%; height: 70%;
+  border-radius: 50% !important;
+  background: radial-gradient(circle, rgba(0, 203, 214, 0.45) 0%, transparent 70%) !important;
+  filter: blur(12px) !important;
+  animation: corePulse 1.8s ease-in-out infinite alternate;
+  z-index: 4;
+}
+
+.quantum-ring {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  border-radius: 50% !important;
+  border: 2px dashed rgba(0, 203, 214, 0.65) !important;
+  box-shadow: 0 0 20px rgba(0, 203, 214, 0.25) !important;
+  transform-style: preserve-3d;
+}
+
+.ring-1 {
+  transform: rotateX(65deg) rotateY(25deg) rotateZ(0deg);
+  border-style: solid !important;
+  border-width: 3px !important;
+  border-color: rgba(0, 203, 214, 0.85) rgba(0, 119, 182, 0.15) !important;
+  animation: orbitSpin1 3.5s linear infinite;
+}
+
+.ring-2 {
+  transform: rotateX(45deg) rotateY(-45deg) rotateZ(0deg);
+  border-width: 2px !important;
+  border-color: rgba(0, 180, 216, 0.75) transparent !important;
+  animation: orbitSpin2 5s linear infinite reverse;
+}
+
+.ring-3 {
+  transform: rotateX(-55deg) rotateY(20deg) rotateZ(0deg);
+  animation: orbitSpin3 7s linear infinite;
+}
+
+.quantum-pulses {
+  position: absolute;
+  top: -15%; left: -15%; width: 130%; height: 130%;
+  border-radius: 50% !important;
+  background: repeating-radial-gradient(circle, transparent 0%, transparent 12%, rgba(0, 203, 214, 0.06) 18%, transparent 24%) !important;
+  animation: energyWave 2.5s linear infinite;
+  z-index: 1;
+}
+
+/* ============================================================
+   🔄 KEYFRAMES DE ANIMACIONES 3D
+   ============================================================ */
+@keyframes spinHUD { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes orbitSpin1 { from { transform: rotateX(65deg) rotateY(25deg) rotateZ(0deg); } to { transform: rotateX(65deg) rotateY(25deg) rotateZ(360deg); } }
+@keyframes orbitSpin2 { from { transform: rotateX(45deg) rotateY(-45deg) rotateZ(0deg); } to { transform: rotateX(45deg) rotateY(-45deg) rotateZ(360deg); } }
+@keyframes orbitSpin3 { from { transform: rotateX(-55deg) rotateY(20deg) rotateZ(0deg); } to { transform: rotateX(-55deg) rotateY(20deg) rotateZ(360deg); } }
+@keyframes corePulse { 0% { transform: scale(0.88); opacity: 0.5; } 100% { transform: scale(1.12); opacity: 1; } }
+@keyframes energyWave { 0% { transform: scale(0.75); opacity: 0; } 50% { opacity: 1; } 100% { transform: scale(1.35); opacity: 0; } }
+@keyframes telemetryBlink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+/* ============================================================
+   📊 SECCIONES RESTANTES (KPIs, TABLAS, COMPONENTES)
+   ============================================================ */
+.kpi-card {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 1.5rem !important;
+  border-radius: 16px !important;
+  color: #ffffff !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+  border: none !important;
+  transition: transform 0.2s ease !important;
+}
+.kpi-card:hover { transform: translateY(-4px) !important; }
+
+.card-totales { background: linear-gradient(135deg, #12285c 0%, #2563eb 100%) !important; }
+.card-pendientes { background: linear-gradient(135deg, #78350f 0%, #d97706 100%) !important; }
+.card-resueltas { background: linear-gradient(135deg, #064e3b 0%, #059669 100%) !important; }
+.card-urgentes { background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%) !important; }
+
+.kpi-content { display: flex; flex-direction: column; }
+.kpi-title { font-size: 0.85rem !important; font-weight: 800 !important; opacity: 0.85 !important; letter-spacing: 0.5px !important; }
+.kpi-value { font-size: 2.2rem !important; font-weight: 800 !important; line-height: 1.1 !important; margin-top: 4px !important; }
+.kpi-icon { font-size: 2.2rem !important; opacity: 0.35 !important; }
+
+.activity-card, .status-card {
+  background: #060d17 !important;
+  border: 1px solid #132237 !important;
+  border-radius: 20px !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.5) !important;
+}
+
+.section-title, .status-title { font-size: 1.25rem !important; font-weight: 700 !important; color: #ffffff !important; }
+.activity-item { border-color: rgba(255, 255, 255, 0.05) !important; }
+.activity-text { color: #cbd5e1 !important; font-size: 0.95rem !important; }
+.activity-text strong { color: #00cbd6 !important; }
+.activity-time { color: #64748b !important; font-size: 0.85rem !important; }
+
+.badge-icon {
+  width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+}
+.icon-blue { background: rgba(37, 99, 235, 0.18); color: #60a5fa; }
+.icon-green { background: rgba(5, 150, 105, 0.18); color: #34d399; }
+
+.status-item { font-weight: 700 !important; font-size: 1rem !important; display: flex; align-items: center; gap: 0.6rem; color: #cbd5e1 !important;}
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.dot.online { background: #10b981 !important; box-shadow: 0 0 12px #10b981 !important; }
+
+.status-footer { border-color: rgba(255, 255, 255, 0.05) !important; }
+.version-text { font-size: 0.85rem !important; color: #64748b !important; font-weight: 600 !important; }
+.version-highlight { color: #00cbd6 !important; font-weight: 800 !important; }

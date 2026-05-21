@@ -1,99 +1,115 @@
-<div class="container mt-5 px-4">
-  <div class="row align-items-center mb-5 p-4 bg-dark text-white rounded-5 shadow-lg position-relative overflow-hidden" style="min-height: 300px;">
-    <div class="col-lg-7 z-1">
-      <h1 class="display-4 fw-bold mb-3">SISTEMA INTEGRAL <span class="text-info">UQ</span></h1>
-      <p class="lead mb-4 text-light-50">Bienvenido al centro de mando. Aquí puedes gestionar, monitorear y optimizar todas las solicitudes académicas en tiempo real.</p>
-      <div class="d-flex gap-3">
-        <a routerLink="/nueva-solicitud" class="btn btn-info btn-lg px-4 rounded-pill fw-bold shadow">
-          <i class="fa-solid fa-plus me-2"></i>Nueva Tarea
-        </a>
-        <a routerLink="/lista-solicitudes" class="btn btn-outline-light btn-lg px-4 rounded-pill">
-          <i class="fa-solid fa-chart-line me-2"></i>Ver Listado
-        </a>
-      </div>
-    </div>
-    <div class="position-absolute end-0 top-0 translate-middle-y text-info opacity-25" style="font-size: 15rem;">
-      <i class="fa-solid fa-circle-nodes animate-spin-slow"></i>
-    </div>
-  </div>
+<div class="dashboard-wrapper container-fluid p-4">
 
-  <div class="row g-4 mb-5">
-    <div class="col-md-3">
-      <div class="card border-0 shadow-sm rounded-4 bg-primary text-white h-100 p-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h6 class="text-uppercase small fw-bold">Totales</h6>
-            <h2 class="mb-0">128</h2>
-          </div>
-          <i class="fa-solid fa-folder-open fa-2x opacity-50"></i>
+  <div class="main-banner-card mb-4">
+    <div class="cyber-grid-overlay"></div>
+    <div class="circuit-lines-bg"></div>
+    <div class="data-stream-particles"></div>
+
+    <div class="banner-layout">
+      <div class="text-section">
+        <div class="system-status-tag"><span class="pulse-blink"></span> CORE SYSTEM ACTIVE</div>
+        <h1 class="banner-title">SISTEMA INTEGRAL <span class="brand-highlight">UQ</span></h1>
+        <p class="banner-description">
+          Bienvenido al centro de mando. Aquí puedes gestionar, monitorear y optimizar todas las solicitudes académicas en tiempo real a través del núcleo cuántico distribuido.
+        </p>
+        <div class="button-group">
+          <button class="btn-banner btn-cyan"><i class="fa-solid fa-plus me-2"></i>Nueva Tarea</button>
+          <button class="btn-banner btn-outline"><i class="fa-solid fa-chart-simple me-2"></i>Ver Listado</button>
         </div>
       </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card border-0 shadow-sm rounded-4 bg-warning text-dark h-100 p-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h6 class="text-uppercase small fw-bold">Pendientes</h6>
-            <h2 class="mb-0">14</h2>
+
+      <div class="graphic-section">
+        <div class="quantum-system-wrapper">
+          <div class="hud-scanner-ring"></div>
+          <div class="hud-tech-ticks"></div>
+
+          <div class="quantum-reactor">
+            <div class="quantum-core-glow"></div>
+            <div class="quantum-core"></div>
+            <div class="quantum-ring ring-1"></div>
+            <div class="quantum-ring ring-2"></div>
+            <div class="quantum-ring ring-3"></div>
+            <div class="quantum-pulses"></div>
           </div>
-          <i class="fa-solid fa-clock fa-2x opacity-50"></i>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card border-0 shadow-sm rounded-4 bg-success text-white h-100 p-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h6 class="text-uppercase small fw-bold">Resueltas</h6>
-            <h2 class="mb-0">114</h2>
-          </div>
-          <i class="fa-solid fa-check-double fa-2x opacity-50"></i>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-3">
-      <div class="card border-0 shadow-sm rounded-4 bg-danger text-white h-100 p-3">
-        <div class="d-flex justify-content-between align-items-center">
-          <div>
-            <h6 class="text-uppercase small fw-bold">Urgentes</h6>
-            <h2 class="mb-0">3</h2>
-          </div>
-          <i class="fa-solid fa-fire fa-2x opacity-50"></i>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row g-3 mb-4">
+    <div class="col-md-3">
+      <div class="kpi-card card-totales">
+        <div class="kpi-content">
+          <span class="kpi-title">TOTALES</span>
+          <span class="kpi-value">128</span>
+        </div>
+        <i class="fa-solid fa-folder kpi-icon"></i>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="kpi-card card-pendientes">
+        <div class="kpi-content">
+          <span class="kpi-title">PENDIENTES</span>
+          <span class="kpi-value">14</span>
+        </div>
+        <i class="fa-solid fa-clock kpi-icon"></i>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="kpi-card card-resueltas">
+        <div class="kpi-content">
+          <span class="kpi-title">RESUELTAS</span>
+          <span class="kpi-value">114</span>
+        </div>
+        <i class="fa-solid fa-circle-check kpi-icon"></i>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="kpi-card card-urgentes">
+        <div class="kpi-content">
+          <span class="kpi-title">URGENTES</span>
+          <span class="kpi-value">3</span>
+        </div>
+        <i class="fa-solid fa-fire kpi-icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
     <div class="col-lg-8">
-      <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
-        <h5 class="fw-bold mb-4 border-bottom pb-2">Actividad Reciente</h5>
-        <div class="list-group list-group-flush">
-          <div class="list-group-item border-0 d-flex align-items-center gap-3 px-0">
-            <div class="bg-light p-2 rounded-circle text-primary"><i class="fa-solid fa-envelope"></i></div>
-            <div class="small">Solicitud <strong>#4582</strong> creada por Juan Pérez</div>
-            <span class="ms-auto text-muted smaller">Hace 2 min</span>
+      <div class="activity-card p-4">
+        <h3 class="section-title mb-4">Actividad Reciente</h3>
+        <div class="activity-timeline">
+          <div class="activity-item d-flex justify-content-between align-items-center py-3 border-bottom">
+            <div class="d-flex align-items-center gap-3">
+              <span class="badge-icon icon-blue"><i class="fa-solid fa-envelope"></i></span>
+              <span class="activity-text">Solicitud <strong>#4582</strong> creada por Juan Pérez</span>
+            </div>
+            <span class="activity-time">Hace 2 min</span>
           </div>
-          <div class="list-group-item border-0 d-flex align-items-center gap-3 px-0">
-            <div class="bg-light p-2 rounded-circle text-success"><i class="fa-solid fa-check"></i></div>
-            <div class="small">Mantenimiento <strong>#4570</strong> finalizado</div>
-            <span class="ms-auto text-muted smaller">Hace 1 hora</span>
+          <div class="activity-item d-flex justify-content-between align-items-center py-3">
+            <div class="d-flex align-items-center gap-3">
+              <span class="badge-icon icon-green"><i class="fa-solid fa-check"></i></span>
+              <span class="activity-text">Mantenimiento <strong>#4570</strong> finalizado</span>
+            </div>
+            <span class="activity-time">Hace 1 hora</span>
           </div>
         </div>
       </div>
     </div>
+
     <div class="col-lg-4">
-      <div class="card border-0 shadow-sm rounded-4 p-4 bg-info text-white">
-        <h5 class="fw-bold mb-3">Estado del Sistema</h5>
-        <div class="d-flex align-items-center gap-2 mb-2 small">
-          <i class="fa-solid fa-circle text-success small"></i> Backend Conectado
+      <div class="status-card p-4">
+        <h3 class="status-title mb-4">Estado del Sistema</h3>
+        <div class="status-list d-flex flex-column gap-3 mb-4">
+          <div class="status-item"><span class="dot online"></span> Backend Conectado</div>
+          <div class="status-item"><span class="dot online"></span> Base de Datos Activa</div>
         </div>
-        <div class="d-flex align-items-center gap-2 mb-2 small">
-          <i class="fa-solid fa-circle text-success small"></i> Base de Datos Activa
+        <div class="status-footer border-top pt-3">
+          <span class="version-text">Versión: <span class="version-highlight">3.0-Flash (Stable)</span></span>
         </div>
-        <hr>
-        <p class="small mb-0"><strong>Versión:</strong> 3.0-Flash (Stable)</p>
       </div>
     </div>
   </div>
+
 </div>
