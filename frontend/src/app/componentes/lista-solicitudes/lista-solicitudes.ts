@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, inject, PLATFORM_ID, ChangeDetectorRef, NgZone } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SolicitudesService } from '../../servicios/solicitudes';
@@ -17,6 +18,9 @@ export class ListaSolicitudes implements OnInit {
   private solicitudesService = inject(SolicitudesService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private platformId = inject(PLATFORM_ID);
+  private cdr = inject(ChangeDetectorRef);
+  private ngZone = inject(NgZone);
 
   todasLasSolicitudes: SolicitudResumen[] = [];
   solicitudesPagina: SolicitudResumen[] = [];
@@ -30,24 +34,48 @@ export class ListaSolicitudes implements OnInit {
   get totalPaginas(): number { return Math.ceil(this.totalElementos / this.tamano); }
 
   ngOnInit(): void {
-    this.cargarSolicitudes();
+    if (isPlatformBrowser(this.platformId)) {
+      // Usamos NgZone.run para garantizar que la respuesta HTTP
+      // siempre dispare la detección de cambios de Angular,
+      // sin importar desde qué contexto llegue la respuesta.
+      this.ngZone.run(() => this.cargarSolicitudes());
+    }
   }
 
   cargarSolicitudes(): void {
     this.cargando = true;
     this.error = '';
+
     const usuarioId = this.authService.getUserId();
+
+    if (!usuarioId) {
+      // Si por algún motivo no hay token todavía, reintentamos una vez
+      // después de que el browser termine de hidratar
+      setTimeout(() => {
+        const id = this.authService.getUserId();
+        if (id) {
+          this.cargarSolicitudes();
+        } else {
+          this.error = 'No se pudo obtener el usuario. Por favor recargue.';
+          this.cargando = false;
+          this.cdr.detectChanges();
+        }
+      }, 100);
+      return;
+    }
 
     this.solicitudesService.listarPorUsuario(usuarioId).subscribe({
       next: (lista) => {
         this.todasLasSolicitudes = lista;
         this.aplicarPagina();
         this.cargando = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error cargando solicitudes:', err);
         this.error = 'No se pudieron cargar las solicitudes.';
         this.cargando = false;
+        this.cdr.detectChanges();
       }
     });
   }
