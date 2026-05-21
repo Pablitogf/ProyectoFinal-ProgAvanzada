@@ -7,7 +7,7 @@
       </div>
       <h2 class="section-main-title m-0">Mis Solicitudes</h2>
     </div>
-    <button class="btn-quantum-neon">
+    <button class="btn-quantum-neon" (click)="nuevaSolicitud()">
       NUEVA SOLICITUD
     </button>
   </div>
@@ -15,92 +15,68 @@
   <div class="circuit-board-wrapper">
     <div class="circuit-lines-overlay"></div>
 
-    <div class="hologram-viewport-container">
-
-      <div class="circuit-row-card">
-        <div class="laser-border-glow"></div>
-        <div class="data-quantum-block">
-          <span class="meta-tech-label">CÓDIGO</span>
-          <span class="code-cypher-glow">SOL-0026</span>
-          <span class="meta-tech-label mt-2">REGISTRO DE FECHA</span>
-          <span class="date-stamped">2026-05-20</span>
-        </div>
-        <div class="data-quantum-block">
-          <span class="meta-tech-label">TIPO DE SOLICITUD</span>
-          <span class="type-text-light">Soporte Técnico</span>
-        </div>
-        <div class="data-quantum-block text-center">
-          <span class="meta-tech-label">ESTADO DE FLUJO</span>
-          <span class="plasma-badge badge-cyan-glow">CREADA</span>
-        </div>
-        <div class="data-quantum-block text-center">
-          <span class="meta-tech-label">PRIORIDAD</span>
-          <span class="plasma-badge badge-amber-glow">Pendiente</span>
-        </div>
-      </div>
-
-      <div class="circuit-row-card">
-        <div class="laser-border-glow"></div>
-        <div class="data-quantum-block">
-          <span class="meta-tech-label">CÓDIGO</span>
-          <span class="code-cypher-glow">SOL-0027</span>
-          <span class="meta-tech-label mt-2">REGISTRO DE FECHA</span>
-          <span class="date-stamped">2026-05-20</span>
-        </div>
-        <div class="data-quantum-block">
-          <span class="meta-tech-label">TIPO DE SOLICITUD</span>
-          <span class="type-text-light">Validación de Notas</span>
-        </div>
-        <div class="data-quantum-block text-center">
-          <span class="meta-tech-label">ESTADO DE FLUJO</span>
-          <span class="plasma-badge badge-cyan-glow">CREADA</span>
-        </div>
-        <div class="data-quantum-block text-center">
-          <span class="meta-tech-label">PRIORIDAD</span>
-          <span class="plasma-badge badge-amber-glow">Pendiente</span>
-        </div>
-      </div>
-
-      <div class="circuit-row-card">
-        <div class="laser-border-glow"></div>
-        <div class="data-quantum-block">
-          <span class="meta-tech-label">CÓDIGO</span>
-          <span class="code-cypher-glow">SOL-0028</span>
-          <span class="meta-tech-label mt-2">REGISTRO DE FECHA</span>
-          <span class="date-stamped">2026-05-20</span>
-        </div>
-        <div class="data-quantum-block">
-          <span class="meta-tech-label">TIPO DE SOLICITUD</span>
-          <span class="type-text-light">Cancelación de Semestre</span>
-        </div>
-        <div class="data-quantum-block text-center">
-          <span class="meta-tech-label">ESTADO DE FLUJO</span>
-          <span class="plasma-badge badge-cyan-glow">CREADA</span>
-        </div>
-        <div class="data-quantum-block text-center">
-          <span class="meta-tech-label">PRIORIDAD</span>
-          <span class="plasma-badge badge-amber-glow">Pendiente</span>
-        </div>
-      </div>
-
+    <div *ngIf="cargando" class="hologram-viewport-container text-center py-5">
+      <span class="type-text-light">Cargando solicitudes...</span>
     </div>
 
-    <div class="telemetry-pagination-bar d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div *ngIf="!cargando && error" class="hologram-viewport-container text-center py-5">
+      <span class="plasma-badge badge-amber-glow">{{ error }}</span>
+    </div>
+
+    <div *ngIf="!cargando && !error && todasLasSolicitudes.length === 0" class="hologram-viewport-container text-center py-5">
+      <span class="type-text-light">No hay solicitudes registradas.</span>
+    </div>
+
+    <div class="hologram-viewport-container" *ngIf="!cargando && !error && solicitudesPagina.length > 0">
+      <div class="circuit-row-card" *ngFor="let s of solicitudesPagina">
+        <div class="laser-border-glow"></div>
+        <div class="data-quantum-block">
+          <span class="meta-tech-label">CÓDIGO</span>
+          <span class="code-cypher-glow">{{ s.codigo }}</span>
+          <span class="meta-tech-label mt-2">REGISTRO DE FECHA</span>
+          <span class="date-stamped">{{ s.fechaCreacion | date: 'yyyy-MM-dd' }}</span>
+        </div>
+        <div class="data-quantum-block">
+          <span class="meta-tech-label">DESCRIPCIÓN</span>
+          <span class="type-text-light">{{ s.descripcionBreve || '—' }}</span>
+        </div>
+        <div class="data-quantum-block text-center">
+          <span class="meta-tech-label">ESTADO DE FLUJO</span>
+          <span class="plasma-badge badge-cyan-glow">{{ s.estado }}</span>
+        </div>
+        <div class="data-quantum-block text-center">
+          <span class="meta-tech-label">PRIORIDAD</span>
+          <span class="plasma-badge badge-amber-glow">{{ s.prioridad ?? 'Sin asignar' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="telemetry-pagination-bar d-flex justify-content-between align-items-center flex-wrap gap-3"
+         *ngIf="!cargando && !error && totalElementos > 0">
       <div class="entries-selector-block">
         <span class="telemetry-label">Registros en pantalla:</span>
         <div class="cyber-dropdown-shell">
-          <select class="cyber-select-input">
-            <option>5</option>
-            <option>10</option>
+          <select class="cyber-select-input" (change)="cambiarTamano($event)">
+            <option value="5">5</option>
+            <option value="10">10</option>
           </select>
         </div>
       </div>
 
       <div class="cyber-pagination-steps d-flex align-items-center gap-2">
-        <button class="arrow-trigger" disabled><i class="fa-solid fa-chevron-left"></i></button>
-        <button class="step-node active">1</button>
-        <button class="step-node">2</button>
-        <button class="arrow-trigger"><i class="fa-solid fa-chevron-right"></i></button>
+        <button class="arrow-trigger" [disabled]="paginaActual === 0" (click)="irAPagina(paginaActual - 1)">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button
+          class="step-node"
+          *ngFor="let p of paginasArray()"
+          [class.active]="p === paginaActual"
+          (click)="irAPagina(p)">
+          {{ p + 1 }}
+        </button>
+        <button class="arrow-trigger" [disabled]="paginaActual >= totalPaginas - 1" (click)="irAPagina(paginaActual + 1)">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
       </div>
     </div>
 

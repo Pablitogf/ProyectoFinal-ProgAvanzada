@@ -30,29 +30,26 @@ export class SolicitudesService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = 'http://localhost:8080/api/solicitudes';
 
-  listar(): Observable<SolicitudResumen[]> {
-    return this.http
-      .get<SpringPage<SolicitudApiDetalle>>(`${this.apiUrl}/consultas/paginadas`, {
-        params: { pagina: '0', tamano: '100' },
-      })
-      .pipe(map((page) => (page.content ?? []).map(adaptarResumen)));
-  }
-
+  /** Todas las solicitudes paginadas (admin) */
   listarPaginado(page: number, size: number): Observable<PageResponse<SolicitudResumen>> {
-    const params = new HttpParams()
-      .set('pagina', page)
-      .set('tamano', size);
+    const params = new HttpParams().set('pagina', page).set('tamano', size);
     return this.http
       .get<SpringPage<SolicitudApiDetalle>>(`${this.apiUrl}/consultas/paginadas`, { params })
-      .pipe(
-        map(p => ({
-          content: (p.content ?? []).map(adaptarResumen),
-          totalElements: p.totalElements ?? 0,
-          totalPages: p.totalPages ?? 0,
-          size: p.size ?? size,
-          number: p.number ?? 0
-        }))
-      );
+      .pipe(map(p => ({
+        content: (p.content ?? []).map(adaptarResumen),
+        totalElements: p.totalElements ?? 0,
+        totalPages: p.totalPages ?? 0,
+        size: p.size ?? size,
+        number: p.number ?? 0
+      })));
+  }
+
+  /** Solicitudes filtradas por el email del usuario (que es su ID en la BD) */
+  listarPorUsuario(solicitanteId: string): Observable<SolicitudResumen[]> {
+    const params = new HttpParams().set('solicitanteId', solicitanteId);
+    return this.http
+      .get<SolicitudApiDetalle[]>(`${this.apiUrl}/consultas/filtro`, { params })
+      .pipe(map(list => list.map(adaptarResumen)));
   }
 
   crear(solicitud: any): Observable<any> {
